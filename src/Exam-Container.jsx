@@ -193,7 +193,7 @@ export default class ExamContainer extends Component {
         var q = this.state.data.questions
         var sum = 0
         for (var i = 0; i < q.length; i++) {
-            sum += parseInt(q[i].answer) === parseInt(ans[i].picked) ? 1 : 0
+            sum += parseInt(q[i].answer) - 1 === parseInt(ans[i].picked) ? 1 : 0
         }
         this.setState({
             mark: sum
