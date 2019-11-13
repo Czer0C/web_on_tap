@@ -3,3 +3,6 @@
 > npm install
 
 > npm start
+
+**Lưu ý: cần phải cài đặt NodeJS thì mới chạy được**
+Link tải: https://nodejs.org/en/download/
