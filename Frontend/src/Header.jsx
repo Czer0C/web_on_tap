@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { NavLink } from "react-router-dom";
 
 export default class Header extends Component    {
     constructor(props) {
@@ -21,7 +22,7 @@ export default class Header extends Component    {
                 <nav class="navbar navbar-color-on-scroll fixed-top navbar-expand-lg bg-primary" color-on-scroll="100" id="sectionsNav">
                     <div class="container">
                         <div class="navbar-translate">
-                        <a class="navbar-brand" href="#">TÊN WEB <div class="ripple-container"></div></a>
+                        <NavLink to="/" class="navbar-brand">TÊN WEB <div class="ripple-container"></div></NavLink>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                             <span class="navbar-toggler-icon"></span>
@@ -31,7 +32,7 @@ export default class Header extends Component    {
                         <div class="collapse navbar-collapse">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Luyện tập </a>
+                                <NavLink class="nav-link" to="/">Luyện tập </NavLink>
                             </li>
                             <li class="dropdown nav-item">
                                 <a href={null} class="dropdown-toggle nav-link" data-toggle="dropdown" onClick={this.dropdown}>

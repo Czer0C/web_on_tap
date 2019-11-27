@@ -30,8 +30,18 @@ export default class ExamContainer extends Component {
     onCloseModal = () => {
     this.setState({ open: false });
     };
+    getData() {
+        fetch("http://localhost:9000/testAPI")
+        .then(res => res.text())
+        .then(res => {
+            alert(res)
+        });
+    }
     componentDidMount() {
         this.initData()
+
+        this.getData()
+
         this.myInterval = setInterval(() => {
             let s = this.state.seconds
             if (s > 0) {
@@ -211,6 +221,7 @@ export default class ExamContainer extends Component {
         if (!this.state.isRunning) {
             return;
         }
+        this.getData();
         this.getMark();
         this.getDuration();
         var duration = this.state.seconds;

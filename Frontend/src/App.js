@@ -1,13 +1,38 @@
 import React from 'react';
+import { BrowserRouter as Link ,Route,  Switch } from 'react-router-dom';
+
 import Header from './Header';
 import ExamContainer from './Exam-Container';
 import './assets/css/material-kit.css';
+import ExamManager from './Exam-Manager';
+import ErrorComponent from './Error'
+
+const GenericRoute = (Component) => {	
+	return (
+        (props) => (
+			<React.Fragment>
+				<Header/>
+				<Component {...props}/>
+			</React.Fragment>
+		)
+		
+	)
+};
+
+
 
 function App() {
     return (  
         <div className="index-page">
-            <Header/>
-            <ExamContainer/>
+             <Link>
+                <React.Fragment>
+                    <Switch>                        
+                        <Route exact path="/" render={GenericRoute(ExamContainer)} />
+                        <Route exact path="/admin" render={GenericRoute(ExamManager)} />
+                        <Route path="/:wrong" render={GenericRoute(ErrorComponent)} />
+                    </Switch>
+                </React.Fragment>
+            </Link>
         </div>
     )
 }
