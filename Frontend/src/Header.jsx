@@ -32,7 +32,7 @@ export default class Header extends Component    {
                         <div class="collapse navbar-collapse">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <NavLink class="nav-link" to="/">Luyện tập </NavLink>
+                                <NavLink class="nav-link" to="/luyen">Luyện tập </NavLink>
                             </li>
                             <li class="dropdown nav-item">
                                 <a href={null} class="dropdown-toggle nav-link" data-toggle="dropdown" onClick={this.dropdown}>

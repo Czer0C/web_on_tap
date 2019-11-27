@@ -6,6 +6,7 @@ import ExamContainer from './Exam-Container';
 import './assets/css/material-kit.css';
 import ExamManager from './Exam-Manager';
 import ErrorComponent from './Error'
+import HomeComponent from './Home';
 
 const GenericRoute = (Component) => {	
 	return (
@@ -27,7 +28,8 @@ function App() {
              <Link>
                 <React.Fragment>
                     <Switch>                        
-                        <Route exact path="/" render={GenericRoute(ExamContainer)} />
+                        <Route exact path="/" render={GenericRoute(HomeComponent)} />
+                        <Route exact path="/luyen" render={GenericRoute(ExamContainer)} />
                         <Route exact path="/admin" render={GenericRoute(ExamManager)} />
                         <Route path="/:wrong" render={GenericRoute(ErrorComponent)} />
                     </Switch>
