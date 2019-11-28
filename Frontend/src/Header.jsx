@@ -17,6 +17,10 @@ export default class Header extends Component    {
             "background-image": "url(https://i.imgur.com/AprDMiS.png)",
             "height": "500px"
         };
+
+        var navStyle = {
+            color: "white"
+        }
         return (
             <div>
                 <nav class="navbar navbar-color-on-scroll fixed-top navbar-expand-lg bg-primary" color-on-scroll="100" id="sectionsNav">
@@ -32,7 +36,7 @@ export default class Header extends Component    {
                         <div class="collapse navbar-collapse">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <NavLink class="nav-link" to="/luyen">Luyện tập </NavLink>
+                                <NavLink class="nav-link" to="/luyen" style={navStyle}><i class="material-icons">create</i>Luyện tập </NavLink>
                             </li>
                             <li class="dropdown nav-item">
                                 <a href={null} class="dropdown-toggle nav-link" data-toggle="dropdown" onClick={this.dropdown}>
@@ -49,6 +53,9 @@ export default class Header extends Component    {
                                         <i class="material-icons">list</i> Theo ngày
                                     </a>
                                 </div>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" to="/admin" style={navStyle}><i class="material-icons">dashboard</i>Quản Lý</NavLink>
                             </li>
                             <li class="button-container nav-item">
                                 <a href="#" target="_blank" class="btn  btn-primary   btn-round btn-block">

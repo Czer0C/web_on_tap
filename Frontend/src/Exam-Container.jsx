@@ -31,11 +31,7 @@ export default class ExamContainer extends Component {
     this.setState({ open: false });
     };
     getData() {
-        fetch("http://localhost:9000/testAPI")
-        .then(res => res.text())
-        .then(res => {
-            alert(res)
-        });
+        
     }
     componentDidMount() {
         this.initData()
@@ -353,7 +349,7 @@ export default class ExamContainer extends Component {
                         </div>
                     
                     </div>
-                    </div>
+                    </div>  
                     <Modal open={open} onClose={this.onCloseModal} center>
                     <div class="modal-header">
                         <h3 class="modal-title" id="exampleModalLabel">Kết quả</h3>

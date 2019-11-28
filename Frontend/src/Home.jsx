@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from "react-router-dom";
 
 export default class HomeComponent extends Component {
     constructor(props) {
@@ -6,8 +7,6 @@ export default class HomeComponent extends Component {
         this.state = {
             data: []
         }
-
-        
     }
 
     getData() {
@@ -17,8 +16,8 @@ export default class HomeComponent extends Component {
             this.setState({
                 data: JSON.parse(res)
             })
-
-        });
+            
+        }); 
     }
 
     componentDidMount() {
@@ -30,6 +29,8 @@ export default class HomeComponent extends Component {
             data
         } = this.state
         
+        
+
         const cardStyle = {
             "width": "20rem"
         }
@@ -38,21 +39,38 @@ export default class HomeComponent extends Component {
             return <span>Loading...</span>;
         }
 
+        const rowCount = Math.ceil(data.length / 3)        
+
         return (
             <div className="product-page">
                 <div className="section section-gray">
                     <div className="container">
                         <div class="main main-raised main-product">
-                            <center>Các bài kiểm tra hiện tại</center>
-                            <div class="card" style={cardStyle}>
-                                <div class="card-body">
-                                    <h4 class="card-title">Card title</h4>
-                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#0" class="card-link">Card link</a>
-                                    <a href="#0" class="card-link">Another link</a>
+                            <center><h2>Các bài kiểm tra hiện tại</h2></center>
+
+                            <div class="row">
+                                {
+                                    data.map((item, index) => (
+                                        <div class="col-sm-4">
+                                        <div class="card" style={cardStyle}>
+
+                                        <div class="card-body">
+                                        <h4 class="card-title">{item.TenBaiKiemTra}</h4>
+                                        <h6 class="card-subtitle mb-2 text-muted">Khối {item.Lop}</h6>
+                                    <p class="card-text">{item.TuaDe}</p>
+
+                                        <NavLink to="/luyen" class="card-link">Làm bài</NavLink>
+                                    </div>
                                 </div>
                                 </div>
+                                    ))
+                                }
+
+
+
+                                
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
