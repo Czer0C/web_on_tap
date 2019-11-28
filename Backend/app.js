@@ -32,28 +32,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/testAPI", testAPIRouter);
 
-var mysql = require('mysql');
-
-var connection = mysql.createConnection({
-  host     : process.env.RDS_HOSTNAME,
-  user     : process.env.RDS_USERNAME,
-  password : process.env.RDS_PASSWORD,
-  port     : process.env.RDS_PORT,
-  database : process.env.RDS_DB
-});
-
-connection.connect(function(err) {  
-  if (err) {
-    console.error('Database connection failed: ' + err.stack);
-    return;
-  }
-
-  connection.query("SELECT * FROM HocKy", function (err, result) {
-    if (err) throw err;
-    console.log(result[0]);
-    connection.end()
-  });
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
