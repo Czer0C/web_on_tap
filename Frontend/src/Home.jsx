@@ -5,8 +5,10 @@ export default class HomeComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            displayData: []
         }
+        this.filterList = this.filterList.bind(this)
     }
 
     getData() {
@@ -14,7 +16,8 @@ export default class HomeComponent extends Component {
         .then(res => res.text())
         .then(res => {
             this.setState({
-                data: JSON.parse(res)
+                data: JSON.parse(res),
+                displayData: JSON.parse(res)
             })
             
         }); 
@@ -24,9 +27,28 @@ export default class HomeComponent extends Component {
         this.getData()
     }
 
+    filterList(event) {
+        var data = this.state.data
+        var value = event.target.id[event.target.id.length - 1] - 1
+        if (value === 0) {
+            this.setState({
+                displayData: data
+            })
+        }
+        else {
+            var list = data.filter((item) => {
+                return item["MaHocKy"] === parseInt(value)
+            })
+            this.setState({
+                displayData: list
+            })
+        }
+    }
+
     render() {
         const {
-            data
+            data,
+            displayData
         } = this.state
         
         
@@ -34,23 +56,38 @@ export default class HomeComponent extends Component {
         const cardStyle = {
             "width": "20rem"
         }
-
-        if (data.length === 0) {
-            return <span>Loading...</span>;
-        }
-
-        const rowCount = Math.ceil(data.length / 3)        
-
         return (
             <div className="product-page">
                 <div className="section section-gray">
                     <div className="container">
                         <div class="main main-raised main-product">
-                            <center><h2>Các bài kiểm tra hiện tại</h2></center>
 
-                            <div class="row">
+                            
+                            <center>
+                                <ul class="nav justify-content-center">
+                                    <li class="nav-item">
+                                        <button class="btn btn-info" id="btn-semester-1" onClick={this.filterList}>Tất cả</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="btn btn-info" id="btn-semester-2" onClick={this.filterList}>Giữa Học Kỳ I</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="btn btn-info" id="btn-semester-3" onClick={this.filterList}>Cuối Học Kỳ I</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="btn btn-info" id="btn-semester-4" onClick={this.filterList}>Giữa Học Kỳ II</button>
+                                    </li>
+                                    <li class="nav-item">   
+                                        <button class="btn btn-info" id="btn-semester-5" onClick={this.filterList}>Cuối Học Kỳ II</button>
+                                    </li>
+                                </ul>   
+                                <h2>Các bài kiểm tra hiện tại</h2>                            
+                            </center>
+                            {
+                                displayData.length === 0 ? <div>Không tìm thấy...</div> : 
+                                <div class="row">
                                 {
-                                    data.map((item, index) => (
+                                    displayData.map((item, index) => (
                                         <div class="col-sm-4">
                                         <div class="card" style={cardStyle}>
 
@@ -71,6 +108,8 @@ export default class HomeComponent extends Component {
                                 
                             </div>
                             
+                            }
+                          
                         </div>
                     </div>
                 </div>
