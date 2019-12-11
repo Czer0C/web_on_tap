@@ -38,11 +38,11 @@ router.get('/layhocky', (req, res, next) => {
 router.post('/thembaikiemtra', (req, res, next) => {
   
   const item = req.body;
-  const getSemester = "select count(*) as 'tong' from BaiKiemTra";
-  console.log(item)
+  const getSemester = "SELECT MaBaiKiemTra FROM BaiKiemTra WHERE MaBaiKiemTra=(SELECT MAX(MaBaiKiemTra) FROM BaiKiemTra)";
+  console.log(item.questionList)
   connection.query(getSemester, (err, result) => {
     if (err) throw err;
-    var semesterID = JSON.parse(JSON.stringify(result))[0].tong + 1;
+    var semesterID = JSON.parse(JSON.stringify(result))[0].MaBaiKiemTra  + 1;
 
     const query =   `
                     INSERT INTO BaiKiemTra (TenBaiKiemTra, MaHocKy, Lop, ThoiGian, TuaDe, NoiDungBaiDoc, TenTacGia, GhiChu)
@@ -52,16 +52,41 @@ router.post('/thembaikiemtra', (req, res, next) => {
                   `;
     connection.query(query, (err2, result2) => {
       if (err2) throw err2
-
-      connection.query(`
-                  
-      INSERT INTO CauHoi (SoThuTu, MaBaiKiemTra, NoiDung) 
-      VALUES ('${item.questionList[0].ID}', '${semesterID}', '${item.questionList[0].content}')`, (e3, r) => {
+      var value = []
+      item.questionList.forEach(item => {
+        var temp = []
+        temp.push(item.ID)
+        temp.push(semesterID)
+        temp.push(item.content)
+        value.push(temp)
+      });
+      var insertQuestion = 
+      
+      `            
+        INSERT INTO CauHoi (SoThuTu, MaBaiKiemTra, NoiDung) VALUES ?  
+      `
+      connection.query(insertQuestion, [value], (e3, r) => {
         if (e3) throw e3
         
-      return res.json({
-        success: true
-      })
+        var insertChoices = `INSERT INTO LuaChon (SoThuTu, STTCauHoi, MaBaiKiemTra, NoiDung, Dung) VALUES ?`
+        var choiceValues = []
+        console.log(item.choiceList)
+        item.choiceList.forEach(item => {
+          var temp = []
+          temp.push(item.ID)
+          temp.push(item.questionID)
+          temp.push(semesterID)
+          temp.push(item.content) 
+          temp.push(item.isCorrect)
+          choiceValues.push(temp)
+        });
+
+        connection.query(insertChoices, [choiceValues], (e4, r4) => {
+          if (e4) throw(e4)
+          return res.json({
+            success: true
+          })
+        })
       })
     })
     
