@@ -39,7 +39,7 @@ router.post('/thembaikiemtra', (req, res, next) => {
   
   const item = req.body;
   const getSemester = "select count(*) as 'tong' from BaiKiemTra";
-  console.log(item.questionList)
+  console.log(item)
   connection.query(getSemester, (err, result) => {
     if (err) throw err;
     var semesterID = JSON.parse(JSON.stringify(result))[0].tong + 1;

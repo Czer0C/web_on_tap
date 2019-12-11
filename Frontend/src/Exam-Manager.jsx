@@ -10,7 +10,7 @@ export default class ExamManager extends Component {
             examName: '',
             semester: 1,
             grade: 1,
-            duration: '',
+            duration: 1,
             title: '',
             content: '',
             author: '',
