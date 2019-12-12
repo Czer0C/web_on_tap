@@ -179,7 +179,10 @@ export default class ExamManager extends Component {
           })
             .then((res) => res.json())
             .then((json) => {
-                alert(json)
+                if (json.success) 
+                    alert("Thành công")
+                else
+                    alert("Xảy ra lỗi. Hãy thử lại.")
             })
 
 
@@ -229,7 +232,7 @@ export default class ExamManager extends Component {
             })
             for (var j = 0; j < 4; j++) {
                 cl.push({
-                    ID: i * 4 + j,
+                    ID: j,
                     examID: '',
                     questionID: i,
                     content: '',
