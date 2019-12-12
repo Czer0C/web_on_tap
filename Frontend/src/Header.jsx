@@ -38,6 +38,9 @@ export default class Header extends Component    {
                             <li class="nav-item">
                                 <NavLink class="nav-link" to="/luyen" style={navStyle}><i class="material-icons">create</i>Luyện tập </NavLink>
                             </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" to="/sosanh" style={navStyle}><i class="material-icons">bar_chart</i>So sánh </NavLink>
+                            </li>
                             <li class="dropdown nav-item">
                                 <a href={null} class="dropdown-toggle nav-link" data-toggle="dropdown" onClick={this.dropdown}>
                                     <i class="material-icons">view_day</i> Bảng xếp hạng

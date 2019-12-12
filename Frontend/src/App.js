@@ -7,6 +7,7 @@ import './assets/css/material-kit.css';
 import ExamManager from './Exam-Manager';
 import ErrorComponent from './Error'
 import HomeComponent from './Home';
+import CompareComponent from './Compare-Component';
 
 const GenericRoute = (Component) => {	
 	return (
@@ -31,6 +32,7 @@ function App() {
                         <Route exact path="/" render={GenericRoute(HomeComponent)} />
                         <Route exact path="/luyen" render={GenericRoute(ExamContainer)} />
                         <Route exact path="/admin" render={GenericRoute(ExamManager)} />
+                        <Route exact path="/sosanh" render={GenericRoute(CompareComponent)} />
                         <Route path="/:wrong" render={GenericRoute(ErrorComponent)} />
                     </Switch>
                 </React.Fragment>

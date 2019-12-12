@@ -85,6 +85,15 @@ router.post('/thembaikiemtra', (req, res, next) => {
 
   
 })
+
+router.get('/laynguoidung', (req, res, next) => {
+  pool.query("SELECT * FROM NguoiDung ORDER BY DiemTichLuy DESC", function (err, result) {
+    if (err) throw err;
+    res.send(JSON.stringify(result))
+  });
+})
+
+
+
+
 module.exports = router;
-
-
