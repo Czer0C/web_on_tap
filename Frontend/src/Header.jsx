@@ -36,14 +36,14 @@ export default class Header extends Component    {
                         <div class="collapse navbar-collapse">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <NavLink class="nav-link" to="/luyen" style={navStyle}><i class="material-icons">create</i>Luyện tập </NavLink>
+                                <NavLink class="nav-link" to="/luyen" style={navStyle}><i class="material-icons"> create</i>Luyện tập </NavLink>
                             </li>
                             <li class="nav-item">
-                                <NavLink class="nav-link" to="/sosanh" style={navStyle}><i class="material-icons">bar_chart</i>So sánh </NavLink>
+                                <NavLink class="nav-link" to="/sosanh" style={navStyle}><i class="material-icons"> bar_chart</i>So sánh </NavLink>
                             </li>
                             <li class="dropdown nav-item">
                                 <a href={null} class="dropdown-toggle nav-link" data-toggle="dropdown" onClick={this.dropdown}>
-                                    <i class="material-icons">view_day</i> Bảng xếp hạng
+                                    <i class="material-icons"> view_day</i> Bảng xếp hạng
                                 </a>
                                 <div class={this.state.menu_1 ? "dropdown-menu dropdown-with-icons" : "dropdown-menu dropdown-with-icons show"}>
                                     <a href="./sections.html#headers" class="dropdown-item">
@@ -58,7 +58,7 @@ export default class Header extends Component    {
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <NavLink class="nav-link" to="/admin" style={navStyle}><i class="material-icons">dashboard</i>Quản Lý</NavLink>
+                                <NavLink class="nav-link" to="/admin" style={navStyle}><i class="material-icons"> dashboard</i>Quản Lý </NavLink>
                             </li>
                             <li class="button-container nav-item">
                                 <a href="#" target="_blank" class="btn  btn-primary   btn-round btn-block">
