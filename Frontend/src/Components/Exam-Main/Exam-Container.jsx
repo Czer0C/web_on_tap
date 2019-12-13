@@ -164,7 +164,6 @@ export default class ExamContainer extends Component {
         clearInterval(this.myInterval)
     }
     handleCheckAnswer(e) {
-
         let temp = this.state.answer
         temp[this.state.current].picked = e.target.value
         this.setState({
@@ -192,8 +191,6 @@ export default class ExamContainer extends Component {
             current: c < 1 ? c : c - 1
         })
     }
-
-
     getMark() {
         var ans = this.state.answer
         var q = this.state.data.questions
@@ -224,7 +221,6 @@ export default class ExamContainer extends Component {
         console.log(this.state.answer)
         this.setState({isRunning:false})
     }
-
     splitPara() {
         var s = this.state.data.paragraph.split("\n")
         return s;
@@ -234,8 +230,7 @@ export default class ExamContainer extends Component {
         const s1 = {
             "text-align": "justify"
         }
-        const { 
-            seconds, 
+        const {
             data, 
             current, 
             isRunning, 
@@ -319,14 +314,18 @@ export default class ExamContainer extends Component {
                                 <center>
                                     <button className="btn btn-sm btn-warning" 
                                             onClick={this.moveBack}
+                                            hidden={current === 0 ? "true" : null}
                                     >
                                         <i class="material-icons">arrow_back</i>&nbsp;Quay lại
                                     </button> 
                                     <button className="btn btn-sm btn-warning" 
                                             onClick={this.moveNext}
+                                            hidden={current === 9 ? "true" : null}
                                     >
                                         Tiếp tục&nbsp;<i class="material-icons">arrow_forward</i>
                                     </button>
+
+                                    
                                 </center> 
                             </div>
                             </div>

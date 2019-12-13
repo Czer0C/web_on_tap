@@ -47,12 +47,9 @@ export default class HomeComponent extends Component {
 
     render() {
         const {
-            data,
             displayData
         } = this.state
-        
-        
-
+    
         const cardStyle = {
             "width": "20rem"
         }
@@ -61,8 +58,6 @@ export default class HomeComponent extends Component {
                 <div className="section section-gray">
                     <div className="container">
                         <div class="main main-raised main-product">
-
-                            
                             <center>
                                 <ul class="nav justify-content-center">
                                     <li class="nav-item">
@@ -94,7 +89,7 @@ export default class HomeComponent extends Component {
                                         <div class="card-body">
                                         <h4 class="card-title">{item.TenBaiKiemTra}</h4>
                                         <h6 class="card-subtitle mb-2 text-muted">Khối {item.Lop}</h6>
-                                    <p class="card-text">{item.TuaDe}</p>
+                                        <p class="card-text">{item.TuaDe}</p>
 
                                         <NavLink to="/luyen" class="card-link">Làm bài</NavLink>
                                     </div>
@@ -102,14 +97,8 @@ export default class HomeComponent extends Component {
                                 </div>
                                     ))
                                 }
-
-
-
-                                
                             </div>
-                            
                             }
-                          
                         </div>
                     </div>
                 </div>

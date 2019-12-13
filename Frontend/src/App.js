@@ -1,33 +1,30 @@
 import React from 'react';
 import { BrowserRouter as Link ,Route,  Switch } from 'react-router-dom';
 
-import Header from './Header';
-import ExamContainer from './Exam-Container';
 import './assets/css/material-kit.css';
-import ExamManager from './Exam-Manager';
-import ErrorComponent from './Error'
-import HomeComponent from './Home';
-import CompareComponent from './Compare-Component';
+import Header from './Components/Header/Header-Component';
+import ExamManager from './Components/Exam-Manager/Exam-Manager';
+import ErrorComponent from './Components/Error/Error-Component'
+import HomeComponent from './Components/Home/Home-Component';
+import CompareComponent from './Components/Leaderboard/Compare-Component';
 
+import ExamContainer from './Components/Exam-Main/Exam-Container';
 const GenericRoute = (Component) => {	
 	return (
         (props) => (
 			<React.Fragment>
-				<Header/>
 				<Component {...props}/>
 			</React.Fragment>
 		)
-		
 	)
 };
-
-
 
 function App() {
     return (  
         <div className="index-page">
              <Link>
                 <React.Fragment>
+				    <Header/>
                     <Switch>                        
                         <Route exact path="/" render={GenericRoute(HomeComponent)} />
                         <Route exact path="/luyen" render={GenericRoute(ExamContainer)} />
