@@ -18,7 +18,8 @@ export default class ExamContainer extends Component {
             mark: 0,
             duration: 0,
             examID: -1,
-            userID: this.props.userID
+            userID: this.props.userID,
+            sectionID: -1
         }
 
         this.handleCheckAnswer = this.handleCheckAnswer.bind(this);
@@ -41,10 +42,34 @@ export default class ExamContainer extends Component {
         fetch("http://localhost:9000/users/thongtinbaikiemtra/" + param)
         .then(res => res.text())
         .then(res => {
-            let response = JSON.parse(res)[0]
+            let response = JSON.parse(res)
+            let question = JSON.parse(response.questionInfo)
+            let choice = JSON.parse(response.choiceInfo)
+
+            var initAns = []
+            for (var i = 0; i < question.length; i++) {
+                initAns.push({ id: question[i].SoThuTu, picked: -1})
+                question[i].choices = []
+            }
+
+            for (var i = 0; i < choice.length; i++) {
+                
+                if (choice[i].Dung === 1) {
+                    question[choice[i].STTCauHoi].CauTraLoiDung = choice[i].SoThuTu
+                }
+                question[choice[i].STTCauHoi].choices.push(choice[i].NoiDung)
+            }
+
+            let tempData = JSON.parse(response.examInfo)[0]
+            tempData.questions = question
+
             this.setState({
                 examID: param,
-                data: response
+                size: question.length,
+                data: tempData,
+                seconds: tempData.ThoiGian * 60,
+                answer: initAns
+
             })
         }); 
     }
@@ -62,21 +87,25 @@ export default class ExamContainer extends Component {
         .then(res => res.json())
         .then(json => {
             if (json.success) {
-                alert('Thành công');
+                this.setState({
+                    sectionID: json.sectionID
+                })
             }
             else {
-                alert('Xảy ra lỗi');
+                alert("Không thể ghi nhận phiên làm bài, hãy thử lại sau.")
             }
         });
     }
 
-    finishExam() {
+    finishExam(mark) {
         fetch("http://localhost:9000/users/nopbai", {
             method: 'PUT',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({
                 userID: this.state.userID,
                 examID: this.state.examID,
+                sectionID: this.state.sectionID,
+                mark: mark,
                 endTime: (new Date()).getTime()
             })
         })
@@ -218,6 +247,19 @@ export default class ExamContainer extends Component {
         
          
     }
+    renderSemester(semesterID) {
+        switch (semesterID) {
+            case 1: 
+                return "Giữa Học Kỳ 1";
+            case 2: 
+                return "Cuối Học Kỳ 1";
+            case 3: 
+                return "Giữa Học Kỳ 2";
+            case 4: 
+                return "Cuối Học Kỳ 2";
+        
+        }
+    }
     componentWillUnmount() {
         clearInterval(this.myInterval)
     }
@@ -249,17 +291,19 @@ export default class ExamContainer extends Component {
             current: c < 1 ? c : c - 1
         })
     }
+
     getMark() {
         var ans = this.state.answer
         var q = this.state.data.questions
         var sum = 0
-        for (var i = 0; i < q.length; i++) {
-            sum += parseInt(q[i].answer) - 1 === parseInt(ans[i].picked) ? 1 : 0
-        }
+        for (var i = 0; i < q.length; i++) 
+            sum += parseInt(q[i].CauTraLoiDung) === parseInt(ans[i].picked) ? 1 : 0
         this.setState({
             mark: sum
         })
+        return sum
     }
+
     getDuration() {
         var result = this.state.data.time * 60 - this.state.seconds
         console.log(result)
@@ -267,6 +311,7 @@ export default class ExamContainer extends Component {
             duration: `${Math.floor(result / 60)}:${result % 60}`
         })
     }
+
     onConfirm() {
         if (this.state.status === 0) { // Bắt đầu làm bài
             this.getExam()
@@ -278,7 +323,8 @@ export default class ExamContainer extends Component {
             })
         }
         else { // Kết thúc
-            this.finishExam()
+            let mark = this.getMark()
+            this.finishExam(mark)
             this.setState({
                 status: 2
             })
@@ -286,24 +332,19 @@ export default class ExamContainer extends Component {
     }
 
     command = () => {
-        this.onOpenModal();
-        // if (this.state.status === 2) { 
-        //     return;
-        // }
-        // else {
-            
-        // }
-        
+        this.onOpenModal(); 
     }
     
-    splitPara() {
-        var s = this.state.data.paragraph.split("\n")
+    splitPara(content) {
+        if (typeof(content) === undefined) return
+        
+        var s = content.split("\n")
         return s;
     }
 
     render() {
         const s1 = {
-            "text-align": "justify"
+            "textAlign": "justify"
         }
         const {
             data, 
@@ -314,7 +355,7 @@ export default class ExamContainer extends Component {
             duration, 
             mark } = this.state
 
-        if (!data.questions) {
+        if (!data.NoiDungBaiDoc) {
             return <span>Loading...</span>;
         }
         
@@ -328,8 +369,8 @@ export default class ExamContainer extends Component {
                                 <center>
                                     <div class="card">
                                         <div class="card-body">
-                                            <h2 class="card-title">{data.exam}</h2>
-                                            <h4 class="card-subtitle mb-2 text-muted">{data.semester}</h4>
+                                            <h2 class="card-title">{data.TenBaiKiemTra}</h2>
+                                            <h4 class="card-subtitle mb-2 text-muted">Lớp {data.Lop} - {this.renderSemester(data.MaHocKy)}</h4>
                                             <h4><i>Dựa vào nội dung bài đọc, khoanh vào chữ cái trước câu trả lời đúng nhất</i></h4>
                                             <h4><i>Nhấp vào nút "Bắt đầu" để hiển thị thông tin và làm bài.</i></h4>
                                         </div>
@@ -342,18 +383,18 @@ export default class ExamContainer extends Component {
                         <div class="col-md-6 col-sm-6">
                             <div class="card card-nav-tabs" >
                                 <div class="card-header card-header-info">
-                                    <center><h4>{data.title}</h4> </center> 
+                                    <center><h4>{data.TuaDe}</h4> </center> 
                                 </div>
                                 {
                                     status === 0 ? null :
                                     <div className="card-body">                           
                                     {
-                                        this.splitPara().map((item, index) => (
+                                        this.splitPara(data.NoiDungBaiDoc).map((item, index) => (
                                             <p key={index}>{item}</p>   
                                         ))
                                     }
-                                    <center><p><b>Theo {data.author}</b></p></center>
-                                    <p>{data.note}</p>
+                                    <center><p><b>Theo {data.TenTacGia}</b></p></center>
+                                    <p>{data.GhiChu}</p>
                                 </div>
                                 }
                                 
@@ -364,7 +405,7 @@ export default class ExamContainer extends Component {
                             {
                                 status === 0 ? null : <div class="card card-nav-tabs">
                                 <div class="card-header card-header-primary">
-                                    <h4>Câu {data.questions[current].id}: {data.questions[current].content}</h4>
+                                    <h4>Câu {data.questions[current].SoThuTu + 1}: {data.questions[current].NoiDung}</h4>
                                     <Line percent={(current + 1) * 10} strokeWidth="1.5"  strokeColor="#47a44b"  />
                                 </div>
                                 
@@ -375,7 +416,7 @@ export default class ExamContainer extends Component {
                                     <label 
                                         class={
                                             status !== 2 ? "form-check-label" : 
-                                            data.questions[current].answer - 1 === index ? 
+                                            data.questions[current].CauTraLoiDung === index ? 
                                             "form-check-label bg-warning" : 
                                             "form-check-label"
                                         }
