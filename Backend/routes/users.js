@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var pool = require('../Middleware/database')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 var utility = require('../utility/utility')
 
 router.get('/', (req, res, next) => {
@@ -17,26 +17,92 @@ router.get('/laybaikiemtra', (req, res, next) => {
 })
 
 router.get('/thongtinbaikiemtra/:examID', (req, res, next) => {
-  let getExamQuery = "SELECT * FROM BaiKiemTra WHERE MaBaiKiemTra = " + req.params.examID
+  let examID = req.params.examID
+  let getExamQuery = "SELECT * FROM BaiKiemTra WHERE MaBaiKiemTra = " + examID
 
   pool.query(getExamQuery, (err, result) => {
     if (err) throw err
-      res.send(JSON.stringify(result))
+      let examInfo = JSON.stringify(result)
+      let getQuestionQuery = "SELECT * FROM CauHoi WHERE MaBaiKiemTra = " + examID
+
+      pool.query(getQuestionQuery, (err2, result2) => {
+        if (err2) throw err2
+        let questionInfo = JSON.stringify(result2)
+        let getChoiceQuery = "SELECT * FROM LuaChon WHERE MaBaiKiemTra = " + examID
+
+        pool.query(getChoiceQuery, (err3, result3) => {
+          if (err3) throw err3
+          let choiceInfo = JSON.stringify(result3)
+
+          res.send(JSON.stringify({
+            examInfo: examInfo,
+            questionInfo: questionInfo,
+            choiceInfo: choiceInfo
+          }))
+        })
+      })
   })
 })
 
 router.post('/batdaulambai', (req, res, next) => {
   let data = req.body
   let time = new Date(data.startTime)
-  console.log(time)
+  let sectionID = -1
+  let getSectionIDQuery = "SELECT MaPhienLamBai FROM PhienLamBai WHERE MaPhienLamBai=(SELECT MAX(MaPhienLamBai) FROM PhienLamBai)"
+  let insertSectionQuery =  `INSERT INTO PhienLamBai (MaNguoiDung, MaBaiKiemTra, ThoiGianBatDau, KetThuc)
+                             VALUES ('${data.userID}', '${data.examID}', '${time.toISOString().replace('Z', '').replace('T', ' ')}', '0')
+                            `
+
+  pool.query(getSectionIDQuery, (error, result) => {
+    if (error) throw error
+    sectionID = JSON.parse(JSON.stringify(result))[0].MaPhienLamBai + 1
+    
+    pool.query(insertSectionQuery, (error, result) => {
+      if (error) throw error
+      if (result.affectedRows) {
+        res.send(JSON.stringify({
+          success: true,
+          sectionID: sectionID
+        }))
+      }
+      else {
+        res.send(JSON.stringify({
+          success: false
+        }))
+      }
+    })
+  })
 })
 
 router.put('/nopbai/', (req, res, next) => {
   let data = req.body
-  console.log(data) 
+  let time = new Date(data.endTime)
+  let getScoreFactor = `SELECT GiaTri FROM ThamSo WHERE MaThamSo = '1'`
+  pool.query(getScoreFactor, (error, result) => {
+    if (error) throw error
+    let scoreFactor = JSON.parse(JSON.stringify(result))[0].GiaTri
+    console.log(data.mark)
+    console.log(scoreFactor)
+
+    let updateSectionQuery =  `UPDATE PhienLamBai 
+                             SET ThoiGianKetThuc = '${time.toISOString().replace('Z', '').replace('T', ' ')}', DiemSo = '${data.mark * scoreFactor}', KetThuc = '1'
+                             WHERE (MaPhienLamBai = '${data.sectionID}')
+                            `
+    pool.query(updateSectionQuery, (error, result) => {
+      if (error) throw error
+      if (result.affectedRows) {
+        res.send(JSON.stringify({
+          success: true
+        }))
+      }
+      else {
+        res.send(JSON.stringify({
+          success: false
+        }))
+      }
+    })
+  })
 })
-
-
 
 router.get('/thongtincanhan/:userID', (req, res, next) => {
   let userID = req.params.userID
