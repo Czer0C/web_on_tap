@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var pool = require('../Middleware/database')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 var utility = require('../utility/utility')
 
 router.get('/', (req, res, next) => {
