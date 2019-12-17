@@ -5,11 +5,14 @@ export default class Header extends Component    {
     constructor(props) {
         super(props);
         this.state = {
-            menu_1: 1
+            menu_1: 1,
+            userID: this.props.userID,
+            userGrade: this.props.userGrade,
+            userName: this.props.username
         }
     }
-    dropdown = () => {
-        this.setState({menu_1 : !this.state.menu_1})
+    componentDidMount() {
+        // console.log("Grade: " + this.state.userGrade)
     }
     
     render() {
@@ -42,7 +45,7 @@ export default class Header extends Component    {
                                 <NavLink class="nav-link" to="/sosanh" style={navStyle}><i class="material-icons">&nbsp;bar_chart</i>So sánh&nbsp;</NavLink>
                             </li>
                             <li class="dropdown nav-item">
-                                <a href={null} class="dropdown-toggle nav-link" data-toggle="dropdown" onClick={this.dropdown}>
+                                <a class="dropdown-toggle nav-link" data-toggle="dropdown">
                                     <i class="material-icons">&nbsp;view_day</i>Bảng xếp hạng&nbsp;
                                 </a>
                                 <div class={this.state.menu_1 ? "dropdown-menu dropdown-with-icons" : "dropdown-menu dropdown-with-icons show"}>
@@ -62,7 +65,7 @@ export default class Header extends Component    {
                             </li>
                             <li class="button-container nav-item">
                                 <a href="#" target="_blank" class="btn  btn-primary   btn-round btn-block">
-                                    <i class="material-icons">&nbsp;person</i>Tài khoản
+                                    <i class="material-icons">&nbsp;person</i>{this.state.userName.split(" ")[0]} - Lớp {this.state.userGrade}
                                 <div class="ripple-container"></div></a>
                             </li>
                         </ul>

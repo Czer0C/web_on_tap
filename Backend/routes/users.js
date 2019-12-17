@@ -16,6 +16,37 @@ router.get('/laybaikiemtra', (req, res, next) => {
   })
 })
 
+router.get('/thongtinbaikiemtra/:examID', (req, res, next) => {
+  let getExamQuery = "SELECT * FROM BaiKiemTra WHERE MaBaiKiemTra = " + req.params.examID
+
+  pool.query(getExamQuery, (err, result) => {
+    if (err) throw err
+      res.send(JSON.stringify(result))
+  })
+})
+
+router.post('/batdaulambai', (req, res, next) => {
+  let data = req.body
+  let time = new Date(data.startTime)
+  console.log(time)
+})
+
+router.put('/nopbai/', (req, res, next) => {
+  let data = req.body
+  console.log(data) 
+})
+
+
+
+router.get('/thongtincanhan/:userID', (req, res, next) => {
+  let userID = req.params.userID
+  let getUserInfoQuery = "SELECT * FROM NguoiDung WHERE MaNguoiDung = " + userID
+  pool.query(getUserInfoQuery, (error, result) => {
+    if (error) throw error
+    res.send(JSON.stringify(result))
+  })
+})
+
 router.post('/thembaikiemtra', (req, res, next) => {
   const requestBody = req.body;
   const getLastExamID = "SELECT MaBaiKiemTra FROM BaiKiemTra WHERE MaBaiKiemTra=(SELECT MAX(MaBaiKiemTra) FROM BaiKiemTra)";
