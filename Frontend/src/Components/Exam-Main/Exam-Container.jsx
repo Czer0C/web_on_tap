@@ -112,7 +112,6 @@ export default class ExamContainer extends Component {
         .then(res => res.json())
         .then(json => {
             if (json.success) {
-                alert('Thành công');
             }
             else {
                 alert('Xảy ra lỗi');
