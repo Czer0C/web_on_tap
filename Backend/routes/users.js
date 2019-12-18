@@ -28,7 +28,8 @@ router.get('/thongtinbaikiemtra/:examID', (req, res, next) => {
 router.post('/batdaulambai', (req, res, next) => {
   let data = req.body
   let time = new Date(data.startTime)
-  console.log(time)
+  console.log(time);
+  res.send('ok');
 })
 
 router.put('/nopbai/', (req, res, next) => {
