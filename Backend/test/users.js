@@ -42,6 +42,91 @@ describe('bai kiem tra', () => {
         }
     });
 
+    /*
+     * Test the /POST bai kiem tra
+     */ 
+
+    /*
+     * Test the batdaulambai 
+     */
+    describe('batdaulambai tu 1 -> 50', () => {
+        for(let i=0;i<50;i++){
+            it('it should post the batdaulambai/'+i, (done) => {
+                let data={
+                    userID: i,
+                    examID: i,
+                    startTime: (new Date()).getTime()
+                }
+                chai.request(server)
+                    .post("/users/batdaulambai")
+                    .send(data)
+                    .end((err,res)=>{
+                        // res.should.have.status(200);
+                         console.log(res.text);
+                        done();
+                    });
+            });
+        }
+    });
+
+    
+
+    /*
+     * Test the batdaulambai 
+     */
+    describe('thembaikiemtra tu 1 -> 50', () => {
+        for(let i=0;i<50;i++){
+            it('it should post the thembaikiemtra/'+i, (done) => {
+                var item = {
+                    examName : 'Bài kiểm tra Unit Test '+i,
+                    semester : 4,
+                    grade : 5,
+                    duration : 30,
+                    title : 'Titel Test'+i,
+                    content : 'Content Test'+i,
+                    author : 'Khoa học tu nhiên',
+                    note : 'none',
+                    questionList: [
+                        {
+                            ID:i,
+                            newExamID:'new'+i,
+                            content:'Content '+i
+                        },
+                        {
+                            ID:i*10,
+                            newExamID:'new'+(i*10),
+                            content:'Content '+(i*10)
+                        },
+                    ],
+                    choiceList:[
+                        {
+                            ID:  i ,
+                            questionID:  i ,
+                            newExamID:   'new '+i,
+                            content:   'content '+i, 
+                            isCorrect:   1,
+                        },
+                        {
+                            ID:  i*10 ,
+                            questionID:  i*10 ,
+                            newExamID:   'new '+(i*10),
+                            content:   'content '+(i*10), 
+                            isCorrect:  2,
+                        }
+                    ]
+                }
+                chai.request(server)
+                    .post("/users/thembaikiemtra")
+                    .send(item)
+                    .end((err,res)=>{
+                        // res.should.have.status(200);
+                         console.log(res.text);
+                        done();
+                    });
+            });
+        }
+    });
+
 });
 
 describe('Nguoi dung', () => {
