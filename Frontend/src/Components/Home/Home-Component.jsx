@@ -13,7 +13,13 @@ export default class HomeComponent extends Component {
         this.filterList = this.filterList.bind(this);
     }
     getExam() {
-        fetch("http://localhost:9000/users/laybaikiemtra")
+        fetch("http://localhost:9000/users/laybaikiemtra", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer 666`
+            }
+        })
         .then(res => res.text())
         .then(res => {
             var temp = JSON.parse(res)

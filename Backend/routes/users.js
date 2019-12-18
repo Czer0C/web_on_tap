@@ -36,11 +36,18 @@ router.post('/dangxuat', (req, res, next) => {
 })
 
 router.get('/laybaikiemtra', (req, res, next) => {
-  let getExamQuery = "SELECT * FROM BaiKiemTra"
-  pool.query(getExamQuery, (err, result) => {
-    if (err) throw err
-      res.send(JSON.stringify(result))
-  })
+  console.log(req.rawHeaders[5])
+  if (req.rawHeaders[5].search("Bearer") !== -1) {
+    // queryCheckToken
+    let getExamQuery = "SELECT * FROM BaiKiemTra"
+    pool.query(getExamQuery, (err, result) => {
+      if (err) throw err
+        res.send(JSON.stringify(result))
+    })
+  }
+  else {
+    res.send("Try again, boi.")
+  }
 })
 
 router.get('/thongtinbaikiemtra/:examID', (req, res, next) => {
