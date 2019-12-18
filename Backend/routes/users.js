@@ -115,9 +115,6 @@ router.put('/nopbai/', (req, res, next) => {
   pool.query(getScoreFactor, (error, result) => {
     if (error) throw error
     let scoreFactor = JSON.parse(JSON.stringify(result))[0].GiaTri
-    console.log(data.mark)
-    console.log(scoreFactor)
-
     let updateSectionQuery =  `UPDATE PhienLamBai 
                              SET ThoiGianKetThuc = '${time.toISOString().replace('Z', '').replace('T', ' ')}', DiemSo = '${data.mark * scoreFactor}', KetThuc = '1'
                              WHERE (MaPhienLamBai = '${data.sectionID}')
