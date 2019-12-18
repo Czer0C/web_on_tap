@@ -13,15 +13,15 @@ router.post('/dangnhap', (req, res, next) => {
   let loginQuery = `SELECT * FROM NguoiDung WHERE TenDangNhap = '${item.username}' AND MatKhau = '${item.password}'`
   pool.query(loginQuery, (error, result) => {
     if (error) throw error
-    let temp = JSON.parse(JSON.stringify(result))[0]
     let response = {
-      success: false,
-      token: "666",
-      userID: temp.MaNguoiDung,
-      userGrade: temp.Lop
+      success: false
     }
     if (result.length !== 0) {
+      let temp = JSON.parse(JSON.stringify(result))[0]
       response.success = true
+      response.token = "666"
+      response.userID = temp.MaNguoiDung
+      response.userGrade = temp.Lop
     }
     res.send(JSON.stringify(response))
   })

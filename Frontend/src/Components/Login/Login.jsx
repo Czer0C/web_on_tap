@@ -130,7 +130,7 @@ export default class Login extends Component {
                                 
                             </form>
                             <div class="footer text-center">
-                                <label for="inputState" id="warning" hidden={!this.state.error}>Lỗi rồi ku</label>
+                                <label for="inputState" id="warning" hidden={!this.state.error}>Tên đăng nhập và mật khẩu không hợp lệ.</label>
                                 <br/>
                                 <button 
                                     class="btn btn-info btn-link btn-wd btn-lg" 
