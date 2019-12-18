@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { NavLink } from "react-router-dom";
+import { getFromStorage, removeFromStorage } from '../../utility/storage.js';
 
 export default class Header extends Component    {
     constructor(props) {
@@ -10,11 +11,35 @@ export default class Header extends Component    {
             userGrade: this.props.userGrade,
             userName: this.props.username
         }
+        this.handleLogout = this.handleLogout.bind(this)
     }
     componentDidMount() {
         // console.log("Grade: " + this.state.userGrade)
     }
     
+    handleLogout() {
+        const signout = getFromStorage('signin');
+        if (signout && signout.token_key) {
+            fetch(`http://localhost:9000/users/dangxuat`, {
+                method: `post`,
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(signout)
+            })
+            .then((res) => res.json())
+            .then((json) => {
+                if (json.success) {
+                    removeFromStorage('signin');
+                    window.location.replace('//localhost:3000');
+                    //window.location.replace("https://chidori-auction.herokuapp.com/");    
+                }
+                else {
+                    alert("Thất bại, hãy thử lại sau.")
+                }
+            })       
+        }
+    }
+
+
     render() {
         var s1 = {
             "background-image": "url(https://i.imgur.com/AprDMiS.png)",
@@ -45,10 +70,10 @@ export default class Header extends Component    {
                                 <NavLink class="nav-link" to="/sosanh" style={navStyle}><i class="material-icons">&nbsp;bar_chart</i>So sánh&nbsp;</NavLink>
                             </li>
                             <li class="dropdown nav-item">
-                                <a class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                                     <i class="material-icons">&nbsp;view_day</i>Bảng xếp hạng&nbsp;
                                 </a>
-                                <div class={this.state.menu_1 ? "dropdown-menu dropdown-with-icons" : "dropdown-menu dropdown-with-icons show"}>
+                                <div class="dropdown-menu dropdown-with-icons">
                                     <a href="./sections.html#headers" class="dropdown-item">
                                         <i class="material-icons">&nbsp;dns</i>Theo năm&nbsp;
                                     </a>
@@ -60,13 +85,17 @@ export default class Header extends Component    {
                                     </a>
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" to="/admin" style={navStyle}><i class="material-icons">&nbsp;dashboard</i>Quản Lý&nbsp;</NavLink>
-                            </li>
-                            <li class="button-container nav-item">
-                                <a href="#" target="_blank" class="btn  btn-primary   btn-round btn-block">
+
+                            <li class="dropdown nav-item">
+                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                                     <i class="material-icons">&nbsp;person</i>{this.state.userName.split(" ")[0]} - Lớp {this.state.userGrade}
-                                <div class="ripple-container"></div></a>
+                                    <div class="ripple-container"></div>
+                                </a>
+                                <div class="dropdown-menu dropdown-with-icons">
+                                    <a href="#" class="dropdown-item" onClick={this.handleLogout}>
+                                        <i class="material-icons">&nbsp;backspace</i>Đăng Xuất&nbsp;
+                                    </a>
+                                </div>
                             </li>
                         </ul>
                     </div>

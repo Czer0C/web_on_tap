@@ -11,6 +11,9 @@ import CompareComponent from './Components/Leaderboard/Compare-Component';
 import ExamContainer from './Components/Exam-Main/Exam-Container';
 
 import "./assets/js/bootstrap-material-design.js"
+import "./Components/Home/Home.css";
+
+
 
 const GenericRoute = (Component, userGrade, userID, username) => {	
 	return (
@@ -27,26 +30,27 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: 23,
-            userGrade: -1,
-            username: ""
+            userID: this.props.userID,
+            userGrade: this.props.userGrade,
+            username: this.props.username
         }
     }
 
-    getUserInfo() {
-        fetch("http://localhost:9000/users/thongtincanhan/" + this.state.userID)
-        .then(res => res.json())
-        .then(json => {
-            this.setState({
-                userID: json[0].MaNguoiDung,
-                username: json[0].HoTen,
-                userGrade: json[0].Lop
-            })
-        });
-    }
+    // getUserInfo() {
+    //     fetch("http://localhost:9000/users/thongtincanhan/" + this.state.userID)
+    //     .then(res => res.json())
+    //     .then(json => {
+    //         this.setState({
+    //             userID: json[0].MaNguoiDung,
+    //             username: json[0].HoTen,
+    //             userGrade: json[0].Lop
+    //         })
+    //     });
+    // }
 
     componentDidMount() {
-        this.getUserInfo()
+        console.log(this.props)
+        // this.getUserInfo()
     }
 
     render() {
@@ -61,7 +65,7 @@ export default class App extends Component {
             <div className="index-page">
                 {
                     username === "" ? 
-                    "Đang tải..." : 
+                    <img id="loading" src="https://i.imgur.com/FMpRIoS.gif"></img> : 
                     <Link>
                         <React.Fragment>
                             <Header userGrade={userGrade} userID={userID} username={username}/>

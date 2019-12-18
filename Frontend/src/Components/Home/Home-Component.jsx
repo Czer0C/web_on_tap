@@ -63,7 +63,7 @@ export default class HomeComponent extends Component {
             <div className="product-page">
                 {
                     displayData === [] ? 
-                    "Đang tải" : 
+                    <img src="https://i.imgur.com/FMpRIoS.gif"></img> : 
                     <div className="section section-gray">
                         <div className="container">
                             <div class="main main-raised main-product">

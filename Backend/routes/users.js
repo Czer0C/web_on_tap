@@ -8,6 +8,33 @@ router.get('/', (req, res, next) => {
   res.send('respond with a resource');
 });
 
+router.post('/dangnhap', (req, res, next) => {
+  let item = req.body
+  let loginQuery = `SELECT * FROM NguoiDung WHERE TenDangNhap = '${item.username}' AND MatKhau = '${item.password}'`
+  pool.query(loginQuery, (error, result) => {
+    if (error) throw error
+    let temp = JSON.parse(JSON.stringify(result))[0]
+    let response = {
+      success: false,
+      token: "666",
+      userID: temp.MaNguoiDung,
+      userGrade: temp.Lop
+    }
+    if (result.length !== 0) {
+      response.success = true
+    }
+    res.send(JSON.stringify(response))
+  })
+})
+
+router.post('/dangxuat', (req, res, next) => {
+  let item = req.body
+  let logoutQuery = "TBA"
+  res.send(JSON.stringify({
+    success: true
+  }))
+})
+
 router.get('/laybaikiemtra', (req, res, next) => {
   let getExamQuery = "SELECT * FROM BaiKiemTra"
   pool.query(getExamQuery, (err, result) => {
