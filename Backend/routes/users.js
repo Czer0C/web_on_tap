@@ -93,6 +93,7 @@ router.post('/batdaulambai', (req, res, next) => {
     
     pool.query(insertSectionQuery, (error, result) => {
       if (error) throw error
+      console.log(insertSectionQuery)
       if (result.affectedRows) {
         res.send(JSON.stringify({
           success: true,
@@ -121,6 +122,7 @@ router.put('/nopbai/', (req, res, next) => {
                             `
     pool.query(updateSectionQuery, (error, result) => {
       if (error) throw error
+      console.log(updateSectionQuery)
       if (result.affectedRows) {
         res.send(JSON.stringify({
           success: true
