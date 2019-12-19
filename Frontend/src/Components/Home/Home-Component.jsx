@@ -17,7 +17,7 @@ export default class HomeComponent extends Component {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer 666`
+                'Authorization': `Bearer 669`
             }
         })
         .then(res => res.text())
