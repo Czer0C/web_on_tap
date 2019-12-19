@@ -7,11 +7,11 @@ import ExamManager from './Components/Exam-Manager/Exam-Manager';
 import ErrorComponent from './Components/Error/Error-Component'
 import HomeComponent from './Components/Home/Home-Component';
 import CompareComponent from './Components/Leaderboard/Compare-Component';
-
 import ExamContainer from './Components/Exam-Main/Exam-Container';
 
 import "./assets/js/bootstrap-material-design.js"
 import "./Components/Home/Home.css";
+import Profile from './Components/Profile/Profile';
 
 
 
@@ -36,18 +36,6 @@ export default class App extends Component {
         }
     }
 
-    // getUserInfo() {
-    //     fetch("http://localhost:9000/users/thongtincanhan/" + this.state.userID)
-    //     .then(res => res.json())
-    //     .then(json => {
-    //         this.setState({
-    //             userID: json[0].MaNguoiDung,
-    //             username: json[0].HoTen,
-    //             userGrade: json[0].Lop
-    //         })
-    //     });
-    // }
-
     componentDidMount() {
         console.log(this.props)
         // this.getUserInfo()
@@ -71,6 +59,7 @@ export default class App extends Component {
                             <Header userGrade={userGrade} userID={userID} username={username}/>
                             <Switch>                        
                                 <Route exact path="/" render={GenericRoute(HomeComponent, userGrade, userID, username)} />
+                                <Route exact path="/canhan" render={GenericRoute(Profile, userGrade, userID, username)} />
                                 <Route path="/luyen/:mabaikiemtra" render={GenericRoute(ExamContainer, userGrade, userID, username)} />
                                 <Route exact path="/admin" render={GenericRoute(ExamManager, userGrade, userID, username)} />
                                 <Route exact path="/sosanh" render={GenericRoute(CompareComponent, userGrade, userID, username)} />

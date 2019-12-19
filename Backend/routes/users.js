@@ -93,7 +93,7 @@ router.post('/batdaulambai', (req, res, next) => {
     
     pool.query(insertSectionQuery, (error, result) => {
       if (error) throw error
-      console.log(insertSectionQuery)
+      console.log(sectionID)
       if (result.affectedRows) {
         res.send(JSON.stringify({
           success: true,

@@ -62,43 +62,32 @@ export default class Header extends Component    {
                         </button>
                     </div>
                         <div class="collapse navbar-collapse">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <NavLink class="nav-link" to="/luyen" style={navStyle}><i class="material-icons">&nbsp;create</i>Luyện tập&nbsp;</NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" to="/sosanh" style={navStyle}><i class="material-icons">&nbsp;bar_chart</i>So sánh&nbsp;</NavLink>
-                            </li>
-                            <li class="dropdown nav-item">
-                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                    <i class="material-icons">&nbsp;view_day</i>Bảng xếp hạng&nbsp;
-                                </a>
-                                <div class="dropdown-menu dropdown-with-icons">
-                                    <a href="./sections.html#headers" class="dropdown-item">
-                                        <i class="material-icons">&nbsp;dns</i>Theo năm&nbsp;
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <NavLink className="nav-link" activeClassName="nav-link active" to="/sosanh" style={navStyle}>
+                                        <i class="material-icons">&nbsp;bar_chart</i>So sánh&nbsp;
+                                    </NavLink>
+                                </li>    
+                                <li class="nav-item">
+                                    <NavLink className="nav-link" activeClassName="nav-link active" to="/admin" style={navStyle}>
+                                        <i class="material-icons">&nbsp;dashboard</i>Quản lý&nbsp;
+                                    </NavLink>
+                                </li>                          
+                                <li class="dropdown nav-item">
+                                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                        <i class="material-icons">&nbsp;person</i>{this.state.userName.split(" ")[0]} - Lớp {this.state.userGrade}
                                     </a>
-                                    <a href="./sections.html#features" class="dropdown-item">
-                                        <i class="material-icons">&nbsp;build</i>Theo tháng&nbsp;
-                                    </a>
-                                    <a href="./sections.html#blogs" class="dropdown-item">
-                                        <i class="material-icons">&nbsp;list</i>Theo ngày&nbsp;
-                                    </a>
-                                </div>
-                            </li>
-
-                            <li class="dropdown nav-item">
-                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                    <i class="material-icons">&nbsp;person</i>{this.state.userName.split(" ")[0]} - Lớp {this.state.userGrade}
-                                    <div class="ripple-container"></div>
-                                </a>
-                                <div class="dropdown-menu dropdown-with-icons">
-                                    <a href="#" class="dropdown-item" onClick={this.handleLogout}>
-                                        <i class="material-icons">&nbsp;backspace</i>Đăng Xuất&nbsp;
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                                    <div class="dropdown-menu dropdown-with-icons">
+                                        <NavLink to="/canhan" className="dropdown-item" activeClassName="dropdown-item active">
+                                            <i class="material-icons">&nbsp;person</i>Trang Cá Nhân&nbsp;
+                                        </NavLink>
+                                        <a href="#" class="dropdown-item" onClick={this.handleLogout}>
+                                            <i class="material-icons">&nbsp;backspace</i>Đăng Xuất&nbsp;
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </nav>
                 <div class="page-header header-filter clear-filter" data-parallax="true" style={s1}>
