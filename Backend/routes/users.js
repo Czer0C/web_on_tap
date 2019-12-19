@@ -94,9 +94,10 @@ router.post('/batdaulambai', (req, res, next) => {
     if (result.affectedRows) {
       pool.query(getSectionIDQuery, (error, result) => {
         if (error) throw error
-        console.log(sectionID)
-        sectionID = JSON.parse(JSON.stringify(result))[0].MaPhienLamBai + 1
 
+        
+        sectionID = JSON.parse(JSON.stringify(result))[0].MaPhienLamBai + 1
+        console.log(sectionID)
         res.send(JSON.stringify({
           success: true,
           sectionID: sectionID
