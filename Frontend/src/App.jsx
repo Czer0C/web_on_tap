@@ -37,8 +37,7 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
-        // this.getUserInfo()
+        
     }
 
     render() {
@@ -48,6 +47,8 @@ export default class App extends Component {
             username
         } = this.state
 
+        if (!userID) return <div>loading</div>
+        else
         return (  
             
             <div className="index-page">

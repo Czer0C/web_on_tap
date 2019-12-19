@@ -36,8 +36,10 @@ router.post('/dangxuat', (req, res, next) => {
 })
 
 router.get('/laybaikiemtra', (req, res, next) => {
-  console.log(req.rawHeaders[5])
-  if (req.rawHeaders[5].search("Bearer") !== -1) {
+  let verify_1 = req.rawHeaders.find(i => {
+    return i.search("Bearer") !== -1
+  })
+  if (verify_1) {
     // queryCheckToken
     let getExamQuery = "SELECT * FROM BaiKiemTra"
     pool.query(getExamQuery, (err, result) => {

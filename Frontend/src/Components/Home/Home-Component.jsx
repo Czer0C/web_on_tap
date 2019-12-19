@@ -24,7 +24,7 @@ export default class HomeComponent extends Component {
         .then(res => {
             var temp = JSON.parse(res)
             temp = temp.filter((item) => {
-                return item["Lop"] === parseInt(this.props.userGrade)
+                return item["Lop"] === parseInt(this.state.userGrade)
             })
             this.setState({
                 data: JSON.parse(res),
