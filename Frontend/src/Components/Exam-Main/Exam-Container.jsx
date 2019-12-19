@@ -127,6 +127,9 @@ export default class ExamContainer extends Component {
                 })
             }
             else { // Hết giờ
+                let mark = this.getMark()
+                this.finishExam(mark)
+                this.getDuration()
                 this.setState({
                     status: 2,
                     open: true
@@ -140,7 +143,6 @@ export default class ExamContainer extends Component {
 
     componentDidMount() {
         this.getExam()
-        //this.initData()
     }
 
     displayTimer() {
@@ -149,103 +151,6 @@ export default class ExamContainer extends Component {
         return `${m < 10 ? `0${m}`: m}:${s < 10 ? `0${s}`: s}`
     }
 
-    initData() {
-        var temp = {
-            "exam": "KIỂM TRA CHẤT LƯỢNG HỌC KÌ I",
-            "semester": "Đọc hiểu Lớp 5 - NH: 2010-2011",
-            "time" : "10",
-            "title": "Trò chơi đom đóm",
-            "paragraph" : "Thuở bé, chúng tôi thú nhất là trò bắt đom đóm! Lũ trẻ chúng tôi cứ chờ trời sẩm tối là dùng vợt làm bằng vải màn, ra bờ ao đón đường bay của lũ đom đóm vợt lấy vợt để; “ chiến tích” sau mỗi lần vợt là hàng chục con đom đóm lớn nhỏ, mỗi buổi tối như thế có thể bắt hàng trăm con.Việc bắt đom đóm hoàn tất, trò chơi mới bắt đầu; bọn trẻ nít nhà quê đâu có thú gì khác hơn là thú chơi giản dị như thế!\nĐầu tiên, chúng tôi bắt đom đóm cho vào trong chai, đeo lủng lẳng vào cửa lớp khi học tối. Bọn con gái bị đẩy đi trước nhìn thấy quầng sáng nhấp nháy tưởng có ma, kêu ré lên, chạy thục mạng.Làm đèn chơi chán chê, chúng tôi lại bỏ đom đóm vào vỏ trứng gà. Nhưng trò này kì công hơn: phải lấy vỏ lụa bên trong quả trứng làm thành cái túi, cho đom đóm vào trong mới phát sáng được. Chúng tôi đem cái túi ấy “ thả” vào vườn nhãn của các cụ phụ lão, cái túi bằng vỏ trứng kia cứ theo gió mà bay chập chờn chẳng khác gì ma trơi khiến mấy tên trộm nhát gan chạy thục mạng.\nTuổi thơ đi qua, những trò nghịch ngợm cũng qua đi... Tôi vào bộ đội, ra canh giữ Trường Sa thân yêu, một lần nghe bài hát “ Đom đóm”, lòng trào lên nỗi nhớ nhà da diết, cứ ao ước được trở lại tuổi ấu thơ...",
-                "author": "Nguyễn Duy Dương",
-                "note": "Ma trơi: đốm sáng thường thấy lập lòe ban đêm trên bãi tha ma.",
-            "questions": [
-            {
-                "id": 1,
-                "content": "Bài văn kể về chuyện gì?",
-                "choices": ["A.	Làm các trò chơi nghịch ngợm.","B.	Làm đèn đi chơi.","C. Làm đèn đi tới lớp học ban đêm. "],
-                "answer": "3"
-            },
-            {
-                "id": 2,
-                "content": "Vì sao những tên trộm nhát gan chạy thục mạng?",
-                "choices": ["A.	Chúng bị các cụ phụ lão canh vườn nhãn rượt đuổi.", "B.	Chúng bị những đốm sáng ma trơi đuổi theo.", "C.	Chúng tưởng đèn đom đóm là ma trơi."],
-                "answer": "1"
-    
-            },
-            {
-                "id": 3,
-                "content": "Điều gì khiến anh bộ đội nhớ nhà, nhớ tuổi thơ da diết?",
-                "choices": ["A.	Anh  nghe đài hát bài “ Đom đóm” rất hay.","B.	Anh đang canh giữ Trường Sa và được nghe hát bài “ Đom đóm”.","C. Anh cùng đồng đội ở đảo Trường Sa tập hát bài “ Đom đóm”"],
-                "answer": "3"
-    
-            },
-            {
-                "id": 4,
-                "content": "Tác giả có tình cảm như thế nào với trò chơi đom đóm?",
-                "choices": ["A.	Rất nhớ.","B.	Rất yêu thích.","C. Cả 2 ý trên đều đúng."],
-                "answer": "2"
-    
-            },
-            {
-                "id": 5,
-                "content": "Bài văn kể về chuyện gì?",
-                "choices": ["A. Dùng đom đóm làm đèn.","B. Giúp các cụ phụ lão canh vườn nhãn.","C.	Trò chơi đom đóm của tuổi nhỏ ở miền quê."],
-                "answer": "3"
-    
-            },
-            {
-                "id": 6,
-                "content": "Từ nào sau đây trái nghĩa với từ “ nhát gan” ?",
-                "choices": ["A.	Hèn nhát","B.	Dũng cảm","C.	Hồn nhiên"],
-                "answer": "2"
-    
-            },
-            {
-                "id": 7,
-                "content": "Từ \"vợt\" trong cụm từ \"dùng vợt làm bằng vải màn\" và từ \"vợt\" trong cụm từ \"vợt lấy vợt\" để có quan hệ vói nhau như thế nào ?",
-                "choices": ["A.	Là 1 từ nhiều nghĩa.","B.	Là 2 từ đồng nghĩa.","C.	Là 2 từ đồng âm."],
-                "answer": "2"
-    
-            },
-            {
-                "id": 8,
-                "content": "Trong câu: “Mặc dù tuổi thơ đã qua nhưng trò chơi đom đóm vẫn luôn hiện về trong tôi.” có cặp từ chỉ quan hệ nào?",
-                "choices": ["A. Quan hệ tương phản.","B. Quan hệ nguyên nhân- kết quả.","C. Quan hệ giả thiết- kết quả."],
-                "answer": "3"
-    
-            },
-            {
-                "id": 9,
-                "content": "Trong câu chuyện trên có những loại câu nào?",
-                "choices": ["A.	Chỉ có câu kể, câu hỏi.","B . Chỉ có câu kể, câu cảm.","C . Có câu kể, câu cảm và câu khiến."],
-                "answer": "1"
-    
-            },
-            {
-                "id": 10,
-                "content": "Vị ngữ  trong câu “Lòng trào lên nỗi nhớ nhà da diết, cứ ao ước được trở lại tuổi ấu thơ.”là những từ ngữ nào? ",
-                "choices": ["A.	trào lên nỗi nhớ nhà da diết.","B.	cứ ao ước được trở lại tuổi ấu thơ.","C.	trào lên nỗi nhớ nhà da diết, cứ ao ước được trở lại tuổi ấu thơ."],
-                "answer": "3"
-    
-            }]
-    
-        }
-        
-
-        var initAns = []
-        for (var i = 0; i < temp.questions.length; i++) {
-            initAns.push({ id: temp.questions[i].id, picked: -1})
-        }
-    
-        this.setState({
-            seconds: temp.time * 60,
-            answer: initAns,
-            data: temp,
-            size: temp.questions.length
-        }, this.splitPara)
-        
-         
-    }
     renderSemester(semesterID) {
         switch (semesterID) {
             case 1: 
@@ -304,8 +209,7 @@ export default class ExamContainer extends Component {
     }
 
     getDuration() {
-        var result = this.state.data.time * 60 - this.state.seconds
-        console.log(result)
+        var result = this.state.data.ThoiGian * 60 - this.state.seconds
         this.setState({
             duration: `${Math.floor(result / 60)}:${result % 60}`
         })
@@ -324,6 +228,7 @@ export default class ExamContainer extends Component {
         else { // Kết thúc
             let mark = this.getMark()
             this.finishExam(mark)
+            this.getDuration()
             this.setState({
                 status: 2
             })

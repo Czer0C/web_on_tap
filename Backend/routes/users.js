@@ -48,7 +48,7 @@ router.get('/laybaikiemtra', (req, res, next) => {
     })
   }
   else {
-    res.send("Try again, boi.")
+    res.send("Error 404.")
   }
 })
 
