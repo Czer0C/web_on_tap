@@ -39,7 +39,7 @@ router.get('/laybaikiemtra', (req, res, next) => {
   let verify_1 = req.rawHeaders.find(i => {
     return i.search("Bearer") !== -1
   })
-  if (verify_1) {
+  if (verifny5ytyur) {
     // queryCheckToken
     let getExamQuery = "SELECT * FROM BaiKiemTra"
     pool.query(getExamQuery, (err, result) => {

@@ -308,7 +308,7 @@ export default class ExamContainer extends Component {
                         <div class="col-md-6 col-sm-6">
                             {
                                 status === 0 ? null : <div class="card card-nav-tabs">
-                                <div class="card-header card-header-primary">
+                                <div class="card-header card-header-primary" hidden={!data.questions[current].NoiDung}>
                                     <h4>Câu {data.questions[current].SoThuTu + 1}: {data.questions[current].NoiDung}</h4>
                                     <Line percent={(current + 1) * 10} strokeWidth="1.5"  strokeColor="#47a44b"  />
                                 </div>
@@ -316,7 +316,7 @@ export default class ExamContainer extends Component {
                                 <div class="card-body">
                             {
                                 data.questions[current].choices.map((item, index) => (
-                                    <div class="form-check form-check-radio" key={index}>
+                                    <div class="form-check form-check-radio" hidden={!item} key={index}>
                                     <label 
                                         class={
                                             status !== 2 ? "form-check-label" : 
