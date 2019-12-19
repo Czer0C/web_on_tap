@@ -151,23 +151,25 @@ router.get('/thongtincanhan/:userID', (req, res, next) => {
 })
 
 router.post('/thembaikiemtra', (req, res, next) => {
-  const requestBody = req.body;
-  const getLastExamID = "SELECT MaBaiKiemTra FROM BaiKiemTra WHERE MaBaiKiemTra=(SELECT MAX(MaBaiKiemTra) FROM BaiKiemTra)";
-  pool.query(getLastExamID, (err, result) => {
-    if (err) throw err;
-    var newExamID = 0
-    if (result.length !== 0)
-      newExamID = JSON.parse(JSON.stringify(result))[0].MaBaiKiemTra + 1;
-    let insertExamQuery =   `
+  let requestBody = req.body;
+  let getLastExamID = "SELECT MaBaiKiemTra FROM BaiKiemTra WHERE MaBaiKiemTra=(SELECT MAX(MaBaiKiemTra) FROM BaiKiemTra)";
+  let insertExamQuery =   `
                     INSERT INTO BaiKiemTra (TenBaiKiemTra, MaHocKy, Lop, ThoiGian, TuaDe, NoiDungBaiDoc, TenTacGia, GhiChu)
                     VALUES  
                     (N'${requestBody.examName}', '${requestBody.semester}', '${requestBody.grade}', '${requestBody.duration}',
                      N'${requestBody.title}', N'${requestBody.content}', N'${requestBody.author}', N'${requestBody.note}') 
                   `;
 
-    pool.query(insertExamQuery, (err2, result2) => {
-      if (err2) throw err2  
+  pool.query(insertExamQuery, (error, result) => {
+    if (error) throw error; 
+
+    pool.query(getLastExamID, (error, result) => {
+      if (error) throw error  
       
+      var newExamID = 0
+      if (result.length !== 0)
+        newExamID = JSON.parse(JSON.stringify(result))[0].MaBaiKiemTra;
+
       var insertQuestionQuery = "INSERT INTO CauHoi (SoThuTu, MaBaiKiemTra, NoiDung) VALUES ?"
       var questionValues = utility.getQuestionValues(requestBody.questionList, newExamID)
 
