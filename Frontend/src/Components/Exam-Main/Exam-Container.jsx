@@ -260,7 +260,7 @@ export default class ExamContainer extends Component {
             mark } = this.state
 
         if (!data.NoiDungBaiDoc) {
-            return <span>Loading...</span>;
+            return <img id="loading" src="https://i.imgur.com/FMpRIoS.gif"></img>   ;
         }
         
         return (
@@ -363,20 +363,20 @@ export default class ExamContainer extends Component {
                             </div>
                             }
                             {
-                            <div className="col-md-6 pull-right">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <center>
-                                            <b><p>{this.displayTimer()}</p></b>
-                                            <button className="btn btn-sm btn-success"
-                                                    onClick={this.command}
-                                            >
-                                                {status === 0 ? "Bắt đầu" : status === 1 ? "Hoàn thành" : "Xem kết quả"}
-                                            </button>
-                                        </center>
+                                <div className="col-md-6 pull-right">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <center>
+                                                <b><p>{this.displayTimer()}</p></b>
+                                                <button className="btn btn-sm btn-success"
+                                                        onClick={this.command}
+                                                >
+                                                    {status === 0 ? "Bắt đầu" : status === 1 ? "Hoàn thành" : "Xem kết quả"}
+                                                </button>
+                                            </center>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             }
                         </div>
                     
@@ -385,7 +385,9 @@ export default class ExamContainer extends Component {
                     <Modal open={open} onClose={this.onCloseModal} center>
                         <div>
                             <div class="modal-header">
-                                <h3 class="modal-title" id="exampleModalLabel">{status === 0 ? "Bạn đã sẵn sàng làm bài?" : status === 1 ? "Xác nhận nộp bài?" : "Kết quả"}</h3>
+                                <h3 class="modal-title" id="exampleModalLabel">
+                                    {status === 0 ? "Bạn đã sẵn sàng làm bài?" : status === 1 ? "Xác nhận nộp bài?" : "Kết quả"}
+                                </h3>
                             </div>
                             {
                                 status < 2 ? null : 
