@@ -87,25 +87,27 @@ router.post('/batdaulambai', (req, res, next) => {
                              VALUES ('${data.userID}', '${data.examID}', '${time.toISOString().replace('Z', '').replace('T', ' ')}', '0')
                             `
 
-  pool.query(getSectionIDQuery, (error, result) => {
+
+  pool.query(insertSectionQuery, (error, result) => {
     if (error) throw error
-    sectionID = JSON.parse(JSON.stringify(result))[0].MaPhienLamBai + 1
-    
-    pool.query(insertSectionQuery, (error, result) => {
-      if (error) throw error
-      console.log(sectionID)
-      if (result.affectedRows) {
+
+    if (result.affectedRows) {
+      pool.query(getSectionIDQuery, (error, result) => {
+        if (error) throw error
+        console.log(sectionID)
+        sectionID = JSON.parse(JSON.stringify(result))[0].MaPhienLamBai + 1
+
         res.send(JSON.stringify({
           success: true,
           sectionID: sectionID
         }))
-      }
-      else {
-        res.send(JSON.stringify({
-          success: false
-        }))
-      }
-    })
+      })
+    }
+    else {
+      res.send(JSON.stringify({
+        success: false
+      }))
+    }
   })
 })
 
