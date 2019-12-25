@@ -28,8 +28,8 @@ describe('bai kiem tra', () => {
     /*
      * Test the thongtinbaikiemtra/:examID
      */
-    describe('thongtinbaikiemtra tu 1 -> 50', () => {
-        for(let i=0;i<50;i++){
+    describe('thongtinbaikiemtra tu 1 -> 10', () => {
+        for(let i=0;i<10;i++){
             it('it should GET the thongtinbaikiemtra/'+i, (done) => {
                 chai.request(server)
                     .get('/users/thongtinbaikiemtra/'+i)
@@ -49,8 +49,8 @@ describe('bai kiem tra', () => {
     /*
      * Test the batdaulambai 
      */
-    describe('batdaulambai tu 1 -> 50', () => {
-        for(let i=0;i<50;i++){
+    describe('batdaulambai tu 1 -> 10', () => {
+        for(let i=0;i<10;i++){
             it('it should post the batdaulambai/'+i, (done) => {
                 let data={
                     userID: i,
@@ -74,8 +74,8 @@ describe('bai kiem tra', () => {
     /*
      * Test the batdaulambai 
      */
-    describe('thembaikiemtra tu 1 -> 50', () => {
-        for(let i=0;i<50;i++){
+    describe('thembaikiemtra tu 1 -> 10', () => {
+        for(let i=0;i<10;i++){
             it('it should post the thembaikiemtra/'+i, (done) => {
                 var item = {
                     examName : 'Bài kiểm tra Unit Test '+i,
@@ -134,8 +134,8 @@ describe('Nguoi dung', () => {
     /*
      * Test the thongtincanhan/:examID
      */
-    describe('thongtincanhan tu 1 -> 50', () => {
-        for(let i=0;i<50;i++){
+    describe('thongtincanhan tu 1 -> 10', () => {
+        for(let i=0;i<10;i++){
             it('it should GET the thongtincanhan/'+i, (done) => {
                 chai.request(server)
                     .get('/users/thongtincanhan/'+i)
