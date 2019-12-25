@@ -8,10 +8,10 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            on: false,
             username: '',
             userID: '',
             userGrade: '',
+            userType: '',
             inputUsername: '',
             inputPassword: '',
             error: false
@@ -32,10 +32,10 @@ export default class Login extends Component {
         const signin = getFromStorage('signin')
         if (signin) {
             this.setState({
-                on: true,
                 username: signin.username,
                 userID: signin.userID,
-                userGrade: signin.userGrade
+                userGrade: signin.userGrade,
+                userType: signin.userType
             })
         }
     }
@@ -45,8 +45,8 @@ export default class Login extends Component {
             username: this.state.inputUsername,
             password: this.state.inputPassword
         }
-        fetch(`http://localhost:9000/users/dangnhap`, {
-            method: `post`,
+        fetch(`http://localhost:9000/nguoidung/dangnhap`, {
+            method: `POST`,
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(item)
           })
@@ -58,15 +58,19 @@ export default class Login extends Component {
                     token_key: json.token,
                     username: this.state.inputUsername,
                     userID: json.userID,
-                    userGrade: json.userGrade
+                    userGrade: json.userGrade,
+                    userType: json.userType
                 });
 
                 this.setState({
                     username: this.state.inputUsername,
                     userID: json.userID,
                     userGrade: json.userGrade,
+                    userType: json.userType,
                     on: true
                 })
+
+                window.location.replace('//localhost:3000');
             }
             else {
                 this.setState({
@@ -77,78 +81,73 @@ export default class Login extends Component {
     }
 
     render() {
-        const {
-            on
-        } = this.state
 
-        if (!on) {
-            return (
-                <div class="login-page">
-        
-            <nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top  navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
-            <div class="container">
-                <div class="navbar-translate">
-                    <p class="navbar-brand">Tên Web</p>
-                </div>
-            </div>
-        </nav>
-        <div class="page-header header-filter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 ml-auto mr-auto">
-                        <div class="card card-signup">
-                            <form class="form">
-                                <div class="card-header card-header-info text-center">
-                                    <h4 class="card-title">Đăng Nhập</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">face</i>
-                                        </span>
-                                        <input 
-                                            type="text" 
-                                            class="form-control" 
-                                            placeholder="Tên đăng nhập..."
-                                            onChange={this.handleChangeInputUsername}
-                                            value={this.state.inputUsername}
-                                        />
-                                    </div>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">lock_outline</i>
-                                        </span>
-                                        <input 
-                                            type="password" 
-                                            class="form-control" 
-                                            placeholder="Mật khẩu..."
-                                            onChange={this.handleChangeInputPassword}
-                                            value={this.state.inputPassword}
-                                        />
-                                    </div>
-                                </div>
-                                
-                            </form>
-                            <div class="footer text-center">
-                                <label for="inputState" id="warning" hidden={!this.state.error}>Tên đăng nhập và mật khẩu không hợp lệ.</label>
-                                <br/>
-                                <button 
-                                    class="btn btn-info btn-link btn-wd btn-lg" 
-                                    onClick={this.handleLogin}
-                                >
-                                    Ok
-                                </button>
+        return (
+            <div className="product-page">
+                <div className="section section-gray">
+                    <div className="container">
+                    <div class="main main-raised main-product">
+                        <div className="row">
+                            <div className="col">
+                                <center>
+                                {
+                                    this.state.username !== '' ? <p>Bạn đã đăng nhập</p> :
+                                    <div class="col-md-4 col-sm-6 ml-auto mr-auto">
+                    <div class="card card-signup">
+                        <form class="form">
+                            <div class="card-header card-header-info text-center">
+                                <h4 class="card-title">Đăng Nhập</h4>
                             </div>
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons" id="login-icon-username">face</i>
+                                    </span>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        placeholder="Tên đăng nhập..."
+                                        onChange={this.handleChangeInputUsername}
+                                        value={this.state.inputUsername}
+                                    />
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons" id="login-icon-password">lock_outline</i>
+                                    </span>
+                                    <input 
+                                        type="password" 
+                                        class="form-control" 
+                                        placeholder="Mật khẩu..."
+                                        onChange={this.handleChangeInputPassword}
+                                        value={this.state.inputPassword}
+                                    />
+                                </div>
+                            </div>
+                            
+                        </form>
+                        <div class="footer text-center">
+                            <label for="inputState" id="warning" hidden={!this.state.error}>Tên đăng nhập và mật khẩu không hợp lệ.</label>
+                            <br/>
+                            <button 
+                                class="btn btn-info btn-link btn-wd btn-lg" 
+                                onClick={this.handleLogin}
+                            >
+                                Ok
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-            )
-        }
-        else return (
-            <App username={this.state.username} userID={this.state.userID} userGrade={this.state.userGrade}></App>
+                                
+                                }
+                                </center>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        
         )
     }
 }

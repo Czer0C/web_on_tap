@@ -13,3 +13,12 @@
 #warning {
     color: #f33527;
 }
+
+#login-card {
+    width: 50%;
+}
+
+#login-icon-username, #login-icon-password {
+    color:#00bcd4;
+
+}

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { NavLink } from "react-router-dom";
 import { getFromStorage, removeFromStorage } from '../../utility/storage.js';
-
 export default class Header extends Component    {
     constructor(props) {
         super(props);
@@ -9,7 +8,8 @@ export default class Header extends Component    {
             menu_1: 1,
             userID: this.props.userID,
             userGrade: this.props.userGrade,
-            userName: this.props.username
+            userType: this.props.userType,
+            userName: this.props.username || "Guest"
         }
         this.handleLogout = this.handleLogout.bind(this)
     }
@@ -20,9 +20,12 @@ export default class Header extends Component    {
     handleLogout() {
         const signout = getFromStorage('signin');
         if (signout && signout.token_key) {
-            fetch(`http://localhost:9000/users/dangxuat`, {
-                method: `post`,
-                headers: {'Content-Type': 'application/json'},
+            fetch(`http://localhost:9000/nguoidung/dangxuat`, {
+                method: `DELETE`,
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer 669`
+                },
                 body: JSON.stringify(signout)
             })
             .then((res) => res.json())
@@ -49,33 +52,44 @@ export default class Header extends Component    {
         var navStyle = {
             color: "white"
         }
+        const {
+            userName,
+            userGrade,
+            userType
+        } = this.state
+
         return (
             <div>
                 <nav class="navbar navbar-color-on-scroll fixed-top navbar-expand-lg bg-primary" color-on-scroll="100" id="sectionsNav">
                     <div class="container">
                         <div class="navbar-translate">
-                        <NavLink to="/" class="navbar-brand">TÊN WEB&nbsp;<div class="ripple-container"></div></NavLink>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                            <span class="navbar-toggler-icon"></span>
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </div>
+                            <NavLink to="/" class="navbar-brand"><img src="https://i.imgur.com/e8EjWdt.png?1" width="80px" align="top"></img></NavLink>
+                        </div>
                         <div class="collapse navbar-collapse">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
                                     <NavLink className="nav-link" activeClassName="nav-link active" to="/sosanh" style={navStyle}>
                                         <i class="material-icons">&nbsp;bar_chart</i>So sánh&nbsp;
                                     </NavLink>
-                                </li>    
-                                <li class="nav-item">
+                                </li>
+                                <li class="nav-item" hidden={userGrade !== -1}>
+                                    <NavLink className="nav-link" activeClassName="nav-link active" to="/dangnhap" style={navStyle}>
+                                        <i class="material-icons">&nbsp;account_box</i>Đăng nhập&nbsp;
+                                    </NavLink>
+                                </li>
+                                <li class="nav-item" hidden={userGrade !== -1}>
+                                    <NavLink className="nav-link" activeClassName="nav-link active" to="/dangky" style={navStyle}>
+                                        <i class="material-icons">&nbsp;note_add</i>Đăng ký&nbsp;
+                                    </NavLink>
+                                </li>  
+                                <li class="nav-item" hidden={userType < 2}>
                                     <NavLink className="nav-link" activeClassName="nav-link active" to="/admin" style={navStyle}>
                                         <i class="material-icons">&nbsp;dashboard</i>Quản lý&nbsp;
                                     </NavLink>
-                                </li>                          
-                                <li class="dropdown nav-item">
+                                </li>   
+                                <li class="dropdown nav-item" hidden={userGrade === -1}>
                                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                        <i class="material-icons">&nbsp;person</i>{this.state.userName.split(" ")[0]} - Lớp {this.state.userGrade}
+                                        <i class="material-icons">&nbsp;person</i>{userName} - Lớp {userGrade}
                                     </a>
                                     <div class="dropdown-menu dropdown-with-icons">
                                         <NavLink to="/canhan" className="dropdown-item" activeClassName="dropdown-item active">

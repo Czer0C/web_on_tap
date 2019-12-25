@@ -38,46 +38,62 @@ export default class ExamContainer extends Component {
 
     getExam() {
         let query = window.location.href.split("/")
-        let param = query[query.length - 1]
-        fetch("http://localhost:9000/users/thongtinbaikiemtra/" + param)
+        let param = query[query.length - 1] 
+        fetch("http://localhost:9000/baikiemtra/lay/" + param, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer 669`
+            }
+        })
         .then(res => res.text())
-        .then(res => {
+        .then(res => {            
             let response = JSON.parse(res)
-            let question = JSON.parse(response.questionInfo)
-            let choice = JSON.parse(response.choiceInfo)
+            if (response.success) {
+                let question = JSON.parse(response.questionInfo)
+                let choice = JSON.parse(response.choiceInfo)
 
-            var initAns = []
-            for (var i = 0; i < question.length; i++) {
-                initAns.push({ id: question[i].SoThuTu, picked: -1})
-                question[i].choices = []
-            }
-
-            for (var i = 0; i < choice.length; i++) {
-                
-                if (choice[i].Dung === 1) {
-                    question[choice[i].STTCauHoi].CauTraLoiDung = choice[i].SoThuTu
+                var initAns = []
+                let questionCount = 0
+                for (var i = 0; i < question.length; i++) {
+                    initAns.push({ id: question[i].SoThuTu, picked: -1})
+                    questionCount += question[i].NoiDung === ""
+                    question[i].choices = []
                 }
-                question[choice[i].STTCauHoi].choices.push(choice[i].NoiDung)
+                for (var i = 0; i < choice.length; i++) {
+                    
+                    if (choice[i].Dung === 1) {
+                        question[choice[i].STTCauHoi].CauTraLoiDung = choice[i].SoThuTu
+                    }
+                    question[choice[i].STTCauHoi].choices.push(choice[i].NoiDung)
+                }
+
+                let tempData = JSON.parse(response.examInfo)[0]
+                tempData.questions = question
+
+                this.setState({
+                    examID: param,
+                    size: questionCount,
+                    data: tempData,
+                    seconds: tempData.ThoiGian * 60,
+                    answer: initAns
+
+                })
             }
-
-            let tempData = JSON.parse(response.examInfo)[0]
-            tempData.questions = question
-
-            this.setState({
-                examID: param,
-                size: question.length,
-                data: tempData,
-                seconds: tempData.ThoiGian * 60,
-                answer: initAns
-
-            })
+            else {
+                alert("Xảy ra lỗi: " + response.message)
+            }
+            
         }); 
     }
 
     submitEntry() {
-        fetch("http://localhost:9000/users/batdaulambai", {
+        fetch("http://localhost:9000/phienlambai/batdau", {
             method: 'POST',
-            headers: {'Content-Type':'application/json'},
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer 669`
+            },
             body: JSON.stringify({
                 userID: this.state.userID,
                 examID: this.state.examID,
@@ -92,15 +108,18 @@ export default class ExamContainer extends Component {
                 })
             }
             else {
-                alert("Không thể ghi nhận phiên làm bài, hãy thử lại sau.")
+                alert(json.message)
             }
         });
     }
 
     finishExam(mark) {
-        fetch("http://localhost:9000/users/nopbai", {
-            method: 'PUT',
-            headers: {'Content-Type':'application/json'},
+        fetch("http://localhost:9000/phienlambai/ketthuc", {
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer 669`
+            },
             body: JSON.stringify({
                 userID: this.state.userID,
                 examID: this.state.examID,
@@ -112,9 +131,10 @@ export default class ExamContainer extends Component {
         .then(res => res.json())
         .then(json => {
             if (json.success) {
+                
             }
             else {
-                alert('Xảy ra lỗi');
+                alert(json.message);
             }
         });
     }
@@ -143,6 +163,7 @@ export default class ExamContainer extends Component {
 
     componentDidMount() {
         this.getExam()
+        console.log(this.state)
     }
 
     displayTimer() {
@@ -176,7 +197,7 @@ export default class ExamContainer extends Component {
 
     }
     moveNext() {
-        var aa =  document.getElementsByClassName("form-check-input");
+        var aa = document.getElementsByClassName("form-check-input");
         for (var i = 0; i < aa.length; i++) 
             aa[i].checked = false;
 
@@ -187,7 +208,7 @@ export default class ExamContainer extends Component {
         })
     }
     moveBack() {
-        var aa =  document.getElementsByClassName("form-check-input");
+        var aa = document.getElementsByClassName("form-check-input");
         for (var i = 0; i < aa.length; i++) 
             aa[i].checked = false;
         var c = this.state.current;
@@ -257,7 +278,9 @@ export default class ExamContainer extends Component {
             answer, 
             open, 
             duration, 
-            mark } = this.state
+            mark,
+            size
+        } = this.state
 
         if (!data.NoiDungBaiDoc) {
             return <img id="loading" src="https://i.imgur.com/FMpRIoS.gif"></img>   ;
@@ -352,7 +375,7 @@ export default class ExamContainer extends Component {
                                     </button> 
                                     <button className="btn btn-sm btn-warning" 
                                             onClick={this.moveNext}
-                                            disabled={current === 9 ? true : null}
+                                            disabled={current === size - 1 ? true : null}
                                     >
                                         Tiếp tục&nbsp;<i class="material-icons">arrow_forward</i>
                                     </button>
