@@ -83,7 +83,7 @@ router.post('/batdau', (req, res, next) => {
 
 router.patch('/ketthuc', (req, res, next) => {
     let verified = checkAuth.verify(req)
-
+    console.log(req.body)
     if (verified === true) {
         let data = req.body
         let time = new Date(data.endTime)
@@ -92,23 +92,36 @@ router.patch('/ketthuc', (req, res, next) => {
         pool.query(getScoreFactor, (error, result) => {
             if (error) throw error
             let scoreFactor = JSON.parse(JSON.stringify(result))[0].GiaTri
+            let score = scoreFactor * data.mark
             let updateSectionQuery =  `UPDATE PhienLamBai 
-                                    SET ThoiGianKetThuc = '${time.toISOString().replace('Z', '').replace('T', ' ')}', DiemSo = '${data.mark * scoreFactor}', KetThuc = '1'
+                                    SET ThoiGianKetThuc = '${time.toISOString().replace('Z', '').replace('T', ' ')}', DiemSo = '${score}', KetThuc = '1'
                                     WHERE (MaPhienLamBai = '${data.sectionID}')
                                     `
             pool.query(updateSectionQuery, (error, result) => {
                 if (error) throw error
-                console.log(updateSectionQuery)
+                
                 if (result.affectedRows) {
-                    res.send(JSON.stringify({
-                        success: true
-                    }))
-                }
-                else {
-                    res.send(JSON.stringify({
-                        success: false,
-                        message: "Không thể cập nhật dữ liệu phiên, hãy thử lại."
-                    }))
+
+                    let updateUserEXPQuery = `UPDATE NguoiDung SET DiemTichLuy = DiemTichLuy + ${score} WHERE MaNguoiDung = ${data.userID}`
+                
+                    pool.query(updateUserEXPQuery, (error, result) => {
+                        if (error) throw error
+
+                        if (result.affectedRows) {
+                            res.send(JSON.stringify({
+                                success: true
+                            }))
+
+                        }
+                        else {
+                            res.send(JSON.stringify({
+                                success: false,
+                                message: "Không thể cập nhật dữ liệu phiên, hãy thử lại."
+                            }))
+                        }
+                        
+                    })
+                    
                 }
             })
         })

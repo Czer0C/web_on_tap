@@ -375,7 +375,7 @@ export default class ExamContainer extends Component {
                                     </button> 
                                     <button className="btn btn-sm btn-warning" 
                                             onClick={this.moveNext}
-                                            disabled={current === size - 1 ? true : null}
+                                            disabled={data.questions[current + 1].NoiDung === '' ? true : null}
                                     >
                                         Tiếp tục&nbsp;<i class="material-icons">arrow_forward</i>
                                     </button>
