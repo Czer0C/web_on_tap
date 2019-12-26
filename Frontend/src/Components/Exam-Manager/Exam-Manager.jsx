@@ -172,9 +172,12 @@ export default class ExamManager extends Component {
         }
 
         console.log(item)
-        fetch(`http://localhost:9000/users/thembaikiemtra`, {
+        fetch(`http://localhost:9000/baikiemtra/them`, {
             method: `post`,
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer 669`
+            },
             body: JSON.stringify(item)
           })
             .then((res) => res.json())
@@ -185,10 +188,7 @@ export default class ExamManager extends Component {
                     alert("Xảy ra lỗi. Hãy thử lại.")
             })
 
-
         this.onCloseModal()
-
-
 
     }
 

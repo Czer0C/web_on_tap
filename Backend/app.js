@@ -9,7 +9,9 @@ dotenv.config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var testAPIRouter = require("./routes/testAPI");
+var examsRouter = require('./routes/exams');
+var sectionRouter = require('./routes/section');
+var parametersRouter = require('./routes/parameters');
 
 
 
@@ -29,8 +31,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use("/testAPI", testAPIRouter);
+app.use('/nguoidung', usersRouter);
+app.use('/baikiemtra', examsRouter);
+app.use('/phienlambai', sectionRouter);
+app.use('/thamso', parametersRouter);
 
 
 // catch 404 and forward to error handler

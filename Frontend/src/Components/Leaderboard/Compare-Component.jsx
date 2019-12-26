@@ -11,10 +11,9 @@ export default class CompareComponent extends Component {
     }
 
     getData() {
-        fetch("http://localhost:9000/users/laynguoidung")
+        fetch("http://localhost:9000/nguoidung/lay")
         .then(res => res.text())
         .then(res => {
-            //console.log(res)
             this.setState({
                 data: JSON.parse(res),
                 displayData: JSON.parse(res)

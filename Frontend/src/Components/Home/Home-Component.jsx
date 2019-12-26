@@ -13,19 +13,40 @@ export default class HomeComponent extends Component {
         this.filterList = this.filterList.bind(this);
     }
     getExam() {
-        fetch("http://localhost:9000/users/laybaikiemtra")
+        fetch("http://localhost:9000/baikiemtra/lay", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer 669`
+            }
+        })
         .then(res => res.text())
         .then(res => {
             var temp = JSON.parse(res)
-            temp = temp.filter((item) => {
-                return item["Lop"] === parseInt(this.props.userGrade)
-            })
+            if (this.state.userGrade !== -1) {      
+                temp = temp.filter((item) => {
+                    return item["Lop"] === parseInt(this.state.userGrade)
+                })
+            }
             this.setState({
                 data: JSON.parse(res),
                 displayData: temp
             })
             
         }); 
+    }
+    renderSemester(semesterID) {
+        switch (semesterID) {
+            case 1:
+                return "Giữa Học Kỳ I";
+            case 2:
+                return "Cuối Học Kỳ I";
+            case 3:
+                return "Giữa Học Kỳ II";
+            case 4:
+                return "Cuối Học Kỳ II";
+            
+        }
     }
     componentDidMount() {
         this.getExam()
@@ -63,7 +84,7 @@ export default class HomeComponent extends Component {
             <div className="product-page">
                 {
                     displayData === [] ? 
-                    "Đang tải" : 
+                    <img src="https://i.imgur.com/FMpRIoS.gif"></img> : 
                     <div className="section section-gray">
                         <div className="container">
                             <div class="main main-raised main-product">
@@ -111,8 +132,8 @@ export default class HomeComponent extends Component {
 
                                             <div class="card-body">
                                             <h4 class="card-title">{item.TenBaiKiemTra}</h4>
-                                            <h6 class="card-subtitle mb-2 text-muted">Khối {item.Lop}</h6>
-                                            <p class="card-text">{item.TuaDe}</p>
+                                            <h6 class="card-subtitle mb-2 text-muted">Khối {item.Lop} - {this.renderSemester(item.MaHocKy)}</h6>
+                                            <p class="card-text">Bài đọc: <b>{item.TuaDe}</b> <br/> Thời gian làm bài: <b>{item.ThoiGian} phút</b></p>
 
                                             <NavLink 
                                                 to={"/luyen/" + item.MaBaiKiemTra}
