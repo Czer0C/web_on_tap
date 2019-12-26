@@ -15,6 +15,30 @@ router.get('/',  (req, res, next) => {
     }
 });
 
+router.get('/lay/:userID', (req, res, next) => {
+    let verified = checkAuth.verify(req)
+    
+    if (verified === true) {
+        let userID = req.params.userID
+        let getUserSectionQuery = "SELECT * FROM PhienLamBai WHERE MaNguoiDung = " + userID
+
+        pool.query(getUserSectionQuery, (error, result) => {
+            if (error) throw error
+
+            res.send(JSON.stringify({
+                success: true,
+                sections: result
+            }))
+        })
+    }
+    else {
+        res.send(JSON.stringify({
+            success: false,
+            message: "Error 404."
+        }))
+    }
+})
+
 router.post('/batdau', (req, res, next) => {
     let verified = checkAuth.verify(req)
     

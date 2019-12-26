@@ -9,24 +9,19 @@ export default class InfoComponent extends Component {
         } = this.props
     }
 
-    getUserInfo() {
-        fetch("http://localhost:9000/nguoidung/lay/" + this.state.userID, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer 669`
-            }
-        })
-        .then(res => res.json())
-        .then(res => {
-            console.log(res)
-            this.setState({
-                info: res.info[0]
-            })
-        }); 
-    }
     componentDidMount() {
-        this.getUserInfo()
+        
+    }
+
+    renderUserType(type) {
+        switch (type) {
+            case 1: 
+                return "Học Sinh"
+            case 2:
+                return "Giáo Viên"
+            case 3:
+                return "Admin"
+        }
     }
 
     render() {
@@ -35,56 +30,46 @@ export default class InfoComponent extends Component {
         } = this.state
         return (
             <div>
-                {
+                {   
                     !info ? 
                     <img id="loading" src="https://i.imgur.com/FMpRIoS.gif"></img>  : 
                     <form>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                            <label className="profile-info-label" for="inputEmail4">Email</label>
-                            <input type="email" class="form-control" id="inputEmail4" placeholder="Email"/>
+                                <label className="profile-info-label" for="inputUsername">Tên Đăng Nhập</label>
+                                <input type="text" class="form-control" id="inputUsername" value={info.TenDangNhap} placeholder="Tên Đăng Nhập"/>
                             </div>
                             <div class="form-group col-md-6">
-                            <label className="profile-info-label" for="inputPassword4">Password</label>
-                            <input type="password" class="form-control" id="inputPassword4" placeholder="Password"/>
+                                <label className="profile-info-label" for="inputEmail4">Email</label>
+                                <input type="email" class="form-control" id="inputEmail4" placeholder="Email"/>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label className="profile-info-label" for="inputAddress">Họ Tên</label>
-                            <input type="text" class="form-control" id="inputAddress" value={info.HoTen}/>
-                        </div>
-                        <div class="form-group">
-                            <label className="profile-info-label" for="inputAddress2">Tên Đăng Nhập</label>
-                            <input type="text" class="form-control" id="inputAddress2" value={info.TenDangNhap}/>
-                        </div>
-                        <div class="form-row">
+                        <div className="form-row">
                             <div class="form-group col-md-6">
-                            <label className="profile-info-label" for="inputCity">City</label>
-                            <input type="text" class="form-control" id="inputCity"/>
+                                <label className="profile-info-label" for="inputFullname">Họ Tên</label>
+                                <input type="text" class="form-control" id="inputFullname" value={info.HoTen} placeholder="Họ Tên"/>
                             </div>
-                            <div class="form-group col-md-3">
-                            <label className="profile-info-label" for="inputState">Lớp</label>
-                            <select id="inputState" class="form-control">
-                                <option selected>{info.Lop}</option>
-                                <option>...</option>
-                            </select>
-                            </div>
-                            <div class="form-group col-md-2 ml-auto">
-                            <label className="profile-info-label" for="inputZip">Điểm Tích Lũy</label>
-                            <input type="text" class="form-control" id="inputZip" value={info.DiemTichLuy} disabled/>
+                            <div class="form-group col-md-6">
+                                <label className="profile-info-label" for="inputGrade">Lớp</label>
+                                <select id="inputGrade" class="form-control">
+                                    <option selected>{info.Lop}</option>
+                                    <option>...</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="form-check">
-                            <label className="profile-info-label" class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value=""/>
-                                Check me out
-                                <span class="form-check-sign">
-                                    <span class="check"></span>
-                                </span>
-                            </label>
+                        <div class="form-row">    
+                            <div class="form-group col-md-6 ml-auto">
+                                <label className="profile-info-label" for="inputUserType">Loại Người Dùng</label>
+                                <input type="text" class="form-control" id="inputUserType" value={this.renderUserType(info.LoaiNguoiDung)} disabled/>
+                            </div>
+                            <div class="form-group col-md-6 ml-auto">
+                                <label className="profile-info-label" for="inputEXP">Điểm Tích Lũy</label>
+                                <input type="text" class="form-control" id="inputEXP" value={info.DiemTichLuy} disabled/>
                             </div>
                         </div>
+
+
+
                         <button type="submit" class="btn btn-info">Cập Nhật</button>
                     </form>
                 }
@@ -92,3 +77,23 @@ export default class InfoComponent extends Component {
         )
     }
 }
+
+
+{/*
+
+<div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label className="profile-info-label" for="inputPassword">Mật Khẩu Cũ</label>
+                                <input type="password" class="form-control" id="inputPassword" value={""} placeholder="Mật Khẩu Cũ"/>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label className="profile-info-label" for="inputNewPassword">Mật Khẩu Mới</label>
+                                <input type="password" class="form-control" id="inputNewPassword" value={""} placeholder="Mật Khẩu Mới"/>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label className="profile-info-label" for="inputPasswordRe">Nhập lại Mật Khẩu mới</label>
+                                <input type="password" class="form-control" id="inputPasswordRe" value={""} placeholder="Mật Khẩu Mới"/>
+                            </div>
+                        </div>
+
+*/}

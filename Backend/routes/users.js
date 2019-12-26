@@ -60,12 +60,15 @@ router.delete('/dangxuat', (req, res, next) => {
 
 router.get('/lay/:userID', (req, res, next) => {
   let verified = checkAuth.verify(req)
+  
+  // verify token from same user
 
   if (verified === true) {
     let userID = req.params.userID
-    let getUserInfoQuery = "SELECT * FROM NguoiDung WHERE MaNguoiDung = " + userID
+    let getUserInfoQuery = "SELECT MaNguoiDung, HoTen, Lop, DiemTichLuy, LoaiNguoiDung, TenDangNhap FROM NguoiDung WHERE MaNguoiDung = " + userID
     pool.query(getUserInfoQuery, (error, result) => {
       if (error) throw error
+
       res.send(JSON.stringify({
         success: true,
         info: result
