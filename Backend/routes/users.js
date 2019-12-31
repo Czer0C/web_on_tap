@@ -4,6 +4,7 @@ var pool = require('../Middleware/database')
 
 var checkAuth =  require('../utility/checkAuth')
 var utility = require('../utility/utility')
+var bcrypt = require('bcrypt');
 
 router.get('/', (req, res, next) => {
   let verified = checkAuth.verify(req)
@@ -17,7 +18,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/dangnhap', (req, res, next) => {
   let item = req.body
-  let loginQuery = `SELECT * FROM NguoiDung WHERE TenDangNhap = '${item.username}' AND MatKhau = '${item.password}'`
+  let loginQuery = `SELECT * FROM NguoiDung WHERE TenDangNhap = '${item.username}'`
   pool.query(loginQuery, (error, result) => {
     if (error) throw error
     let response = {
@@ -25,15 +26,26 @@ router.post('/dangnhap', (req, res, next) => {
     }
     if (result.length !== 0) {
       let temp = JSON.parse(JSON.stringify(result))[0]
-      response.success = true
-      response.token = "666" // temporary token
-      response.userID = temp.MaNguoiDung
-      response.userGrade = temp.Lop
-      response.userType = temp.LoaiNguoiDung
 
-      // add token to database
+      bcrypt.compare(item.password, temp.MatKhau, (error, result) => {
+        if (error) throw error
+        
+        response.success = result
+        response.token = "666" // temporary token
+        response.userID = temp.MaNguoiDung
+        response.userGrade = temp.Lop
+        response.userType = temp.LoaiNguoiDung
+
+
+        // add token to database
+        res.send(JSON.stringify(response))
+      })
     }
-    res.send(JSON.stringify(response))
+    else {
+      res.send(JSON.stringify({
+        response
+      }))
+    }
   })
 })
 
@@ -66,16 +78,20 @@ router.post('/dangky', (req, res, next) => {
               code: 12
             }))
           else {
-            let registerQuery = ` INSERT INTO NguoiDung (HoTen, Lop, MatKhau, DiemTichLuy, TenDangNhap, Email, LoaiNguoiDung) 
-                                  VALUES ('${item.fullname}', '${item.grade}', '${item.password}', '0', '${item.username}', '${item.email}', '1')`
-
-            pool.query(registerQuery, (error, result) => {
+            bcrypt.hash(item.password, 10, (error, hashedPassword) => {
               if (error) throw error
+              let registerQuery = ` INSERT INTO NguoiDung (HoTen, Lop, MatKhau, DiemTichLuy, TenDangNhap, Email, LoaiNguoiDung) 
+                                  VALUES ('${item.fullname}', '${item.grade}', '${hashedPassword}', '0', '${item.username}', '${item.email}', '1')`
 
-              res.send(JSON.stringify({
-                success: true
-              }))
-            })
+              pool.query(registerQuery, (error, result) => {
+                if (error) throw error
+
+                res.send(JSON.stringify({
+                  success: true
+                }))
+              })
+            });
+            
           }
         })
       }
