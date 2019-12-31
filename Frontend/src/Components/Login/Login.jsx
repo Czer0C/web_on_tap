@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import App from '../../App';
 import '../Login/Login.css';
 import { getFromStorage, setInStorage } from '../../utility/storage.js';
 
@@ -13,7 +12,7 @@ export default class Login extends Component {
             userGrade: '',
             userType: '',
             inputUsername: '',
-            inputPassword: '',
+            inputPassword: '',  
             error: false
         }
         this.handleLogin = this.handleLogin.bind(this)
@@ -30,13 +29,18 @@ export default class Login extends Component {
 
     verify() {
         const signin = getFromStorage('signin')
+        
         if (signin) {
-            this.setState({
-                username: signin.username,
-                userID: signin.userID,
-                userGrade: signin.userGrade,
-                userType: signin.userType
-            })
+            if (signin.token_key) {
+                this.setState({
+                    username: signin.username,
+                    userID: signin.userID,
+                    userGrade: signin.userGrade,
+                    userType: signin.userType,
+                    token_key: signin.token_key
+                })
+                window.location.replace('//localhost:3000');
+            }
         }
     }
 
@@ -67,7 +71,7 @@ export default class Login extends Component {
                     userID: json.userID,
                     userGrade: json.userGrade,
                     userType: json.userType,
-                    on: true
+                    token_key: json.token
                 })
 
                 window.location.replace('//localhost:3000');
@@ -86,38 +90,39 @@ export default class Login extends Component {
             <div className="product-page">
                 <div className="section section-gray">
                     <div className="container">
-                    <div class="main main-raised main-product">
+                    <div className="main main-raised main-product">
                         <div className="row">
                             <div className="col">
                                 <center>
                                 {
-                                    this.state.username !== '' ? <p>Bạn đã đăng nhập</p> :
-                                    <div class="col-md-4 col-sm-6 ml-auto mr-auto">
-                    <div class="card card-signup">
-                        <form class="form">
-                            <div class="card-header card-header-info text-center">
-                                <h4 class="card-title">Đăng Nhập</h4>
+                                    this.state.token_key ? 
+                                    <h2>Bạn đã đăng nhập</h2> :
+                                    <div className="col-md-4 col-sm-6 ml-auto mr-auto">
+                    <div className="card card-signup">
+                        <form className="form">
+                            <div className="card-header card-header-info text-center" id="header-login">
+                                <h4 className="card-title">Đăng Nhập</h4>
                             </div>
-                            <div class="card-body">
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="material-icons" id="login-icon-username">face</i>
+                            <div className="card-body">
+                                <div className="input-group">
+                                    <span className="input-group-addon">
+                                        <i className="material-icons" id="login-icon-username">face</i>
                                     </span>
                                     <input 
                                         type="text" 
-                                        class="form-control" 
+                                        className="form-control login-input" 
                                         placeholder="Tên đăng nhập..."
                                         onChange={this.handleChangeInputUsername}
                                         value={this.state.inputUsername}
                                     />
                                 </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="material-icons" id="login-icon-password">lock_outline</i>
+                                <div className="input-group">
+                                    <span className="input-group-addon">
+                                        <i className="material-icons" id="login-icon-password">lock_outline</i>
                                     </span>
                                     <input 
                                         type="password" 
-                                        class="form-control" 
+                                        className="form-control login-input" 
                                         placeholder="Mật khẩu..."
                                         onChange={this.handleChangeInputPassword}
                                         value={this.state.inputPassword}
@@ -126,11 +131,16 @@ export default class Login extends Component {
                             </div>
                             
                         </form>
-                        <div class="footer text-center">
-                            <label for="inputState" id="warning" hidden={!this.state.error}>Tên đăng nhập và mật khẩu không hợp lệ.</label>
+                        <div className="footer text-center">
+                            <label 
+                                for="inputState" 
+                                id="warning" 
+                                hidden={!this.state.error}>
+                                Tên đăng nhập và mật khẩu không hợp lệ.
+                            </label>
                             <br/>
                             <button 
-                                class="btn btn-info btn-link btn-wd btn-lg" 
+                                className="btn btn-info btn-link btn-wd btn-lg" 
                                 onClick={this.handleLogin}
                             >
                                 Ok

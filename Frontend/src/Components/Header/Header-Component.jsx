@@ -6,15 +6,15 @@ export default class Header extends Component    {
         super(props);
         this.state = {
             menu_1: 1,
-            userID: this.props.userID,
-            userGrade: this.props.userGrade,
-            userType: this.props.userType,
+            userID: this.props.userID || -1,
+            userGrade: this.props.userGrade || -1,
+            userType: this.props.userType || -1,
             userName: this.props.username || "Guest"
         }
         this.handleLogout = this.handleLogout.bind(this)
     }
     componentDidMount() {
-        // console.log("Grade: " + this.state.userGrade)
+        
     }
     
     handleLogout() {
