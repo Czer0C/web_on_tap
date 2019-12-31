@@ -15,6 +15,7 @@ import "./Components/Home/Home.css";
 import Profile from './Components/Profile/Profile';
 import Login from './Components/Login/Login';
 import "./App.css"; 
+import Register from './Components/Register/Register';
 
 
 
@@ -53,22 +54,28 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: "",
-            userGrade: "",
-            username: "",
-            userType: ""
         }
     }
 
     componentDidMount() {
         const signin = getFromStorage('signin')
-
-        this.setState({
-            username: signin ? signin.username : "Guest",
-            userID: signin ? signin.userID : -1,
-            userGrade: signin ? signin.userGrade : -1,
-            userType: signin ? signin.userType : -1
-        })
+        if (signin) {
+            this.setState({
+                username: signin.username,
+                userID: signin.userID,
+                userGrade: signin.userGrade,
+                userType: signin.userType
+            })
+        }
+        else {
+            this.setState({
+                username: "Guest",
+                userID: -1,
+                userGrade: -1,
+                userType: -1
+            })
+        }
+        
     }
 
     render() {
@@ -82,13 +89,14 @@ export default class App extends Component {
         return (  
             <div className="index-page">
                 {
-                    username === "" ? 
+                    !username ? 
                     <img id="loading" src="https://i.imgur.com/FMpRIoS.gif"></img> : 
                     <Link>  
                         <React.Fragment>
                             <Switch>                        
                                 <Route exact path="/" render={GenericRoute(HomeComponent, userGrade, userID, username, userType)} />
                                 <Route exact path="/dangnhap" render={GenericRoute(Login)}></Route>
+                                <Route exact path="/dangky" render={GenericRoute(Register)}></Route>
                                 <Route exact path="/canhan" render={GenericRoute(Profile, userGrade, userID, username, userType)} />
                                 <Route path="/luyen/:mabaikiemtra" render={GenericRoute(ExamContainer, userGrade, userID, username, userType)} />
 

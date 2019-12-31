@@ -44,11 +44,18 @@ export default class Profile extends Component {
     
                     <div className="section section-gray">
                         <div className="container">
-                        <div className="main main-raised nav-justified">
-                <div class="card card-nav-tabs card-plain">
+                        <div className="main main-raised nav-justified"> 
+                        {
+                            !this.state.info ? 
+                            <img id="loading" src="https://i.imgur.com/FMpRIoS.gif"></img> :
+                            <div class="card card-nav-tabs card-plain">
                 <div class="card-header card-header-success">
                     {/* <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" --> */}
-                    <div class="nav-tabs-navigation">
+
+                    
+                          
+                         
+                        <div class="nav-tabs-navigation">
                         <div class="nav-tabs-wrapper">
                             <ul class="nav nav-tabs" data-tabs="tabs">
                                 <li class="nav-item">
@@ -63,10 +70,10 @@ export default class Profile extends Component {
                             </ul>
                         </div>
                     </div>
+                    
                 </div>
                 {
-                    !this.state.info ? 
-                    <img id="loading" src="https://i.imgur.com/FMpRIoS.gif"></img> : 
+                   !this.state.info ? null :
                     <div class="card-body ">
                     <div class="tab-content">
                         <div class="tab-pane active" id="general">
@@ -82,6 +89,8 @@ export default class Profile extends Component {
                 </div>
                 }
             </div>
+                        }
+                
             </div>
             
             
