@@ -1,21 +1,18 @@
 import React, {Component} from 'react';
-import '../Login/Login.css';
+import '../Register/Register.css';
 import { getFromStorage, setInStorage } from '../../utility/storage.js';
+import RegisterMain from './Register-Main';
 
 
-export default class Login extends Component {
+export default class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            userID: '',
-            userGrade: '',
-            userType: '',
             inputUsername: '',
             inputPassword: '',  
             error: false
         }
-        this.handleLogin = this.handleLogin.bind(this)
+        //this.handleLogin = this.handleLogin.bind(this)
         
         this.handleChangeInputUsername = this.handleChangeInputUsername.bind(this);
         this.handleChangeInputPassword = this.handleChangeInputPassword.bind(this);
@@ -96,58 +93,8 @@ export default class Login extends Component {
                                 <center>
                                 {
                                     this.state.token_key ? 
-                                    <h2>Bạn đã đăng nhập</h2> :
-                                    <div className="col-md-4 col-sm-6 ml-auto mr-auto">
-                    <div className="card card-signup">
-                        <form className="form">
-                            <div className="card-header card-header-info text-center" id="header-login">
-                                <h4 className="card-title">Đăng Nhập</h4>
-                            </div>
-                            <div className="card-body">
-                                <div className="input-group">
-                                    <span className="input-group-addon">
-                                        <i className="material-icons" id="login-icon-username">face</i>
-                                    </span>
-                                    <input 
-                                        type="text" 
-                                        className="form-control login-input" 
-                                        placeholder="Tên đăng nhập..."
-                                        onChange={this.handleChangeInputUsername}
-                                        value={this.state.inputUsername}
-                                    />
-                                </div>
-                                <div className="input-group">
-                                    <span className="input-group-addon">
-                                        <i className="material-icons" id="login-icon-password">lock_outline</i>
-                                    </span>
-                                    <input 
-                                        type="password" 
-                                        className="form-control login-input" 
-                                        placeholder="Mật khẩu..."
-                                        onChange={this.handleChangeInputPassword}
-                                        value={this.state.inputPassword}
-                                    />
-                                </div>
-                            </div>
-                            
-                        </form>
-                        <div className="footer text-center">
-                            <label 
-                                for="inputState" 
-                                id="warning" 
-                                hidden={!this.state.error}>
-                                Tên đăng nhập và mật khẩu không hợp lệ.
-                            </label>
-                            <br/>
-                            <button 
-                                className="btn btn-info btn-link btn-wd btn-lg" 
-                                onClick={this.handleLogin}
-                            >
-                                Ok
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                                    <h2>Bạn đã có tài khoản</h2> :
+                                    <RegisterMain/>
                                 
                                 }
                                 </center>

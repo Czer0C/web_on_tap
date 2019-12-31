@@ -31,5 +31,58 @@ getChoiceValues = (choiceList, newExamID) => {
     return result
 }
 
+validateRegister = (input) => {
+    let result = {
+        isValid: false,
+        message: "",
+        code: 0
+    }
+
+    if (input.fullname === '') {
+        result.message = "Họ tên không được để trống."
+        result.code = 1
+    }
+    else if (input.grade === '') {
+        result.message = "Lớp không được để trống."        
+        result.code = 2
+    }
+    else if (isNaN(parseInt(input.grade))) {
+        result.message = "Lớp phải là một giá trị số."
+        result.code = 3
+    }
+    else if (parseInt(input.grade) < 1 || parseInt(input.grade) > 5)  {
+        result.message = "Lớp phải từ 1 tới 5."
+        result.code = 4
+    }
+    else if (input.email === '') {
+        result.message = "Email không được để trống."    
+        result.code = 5
+    }
+    else if (input.username === '') {
+        result.message = "Tên đăng nhập không được để trống."        
+        result.code = 6
+    }
+    else if (input.password === '') {
+        result.message = "Mật khẩu không được để trống."    
+        result.code = 7
+    }
+    else if (input.password.length < 6) {
+        result.message = "Mật khẩu quá yếu, cần ít nhất 6 ký tự."
+        result.code = 8
+    }
+    else if (input.repassword === '') {
+        result.message = "Bạn chưa nhập lại mật khẩu."
+        result.code = 9
+    }
+    else if (input.password !== input.repassword) {
+        result.message = "Bạn chưa nhập lại đúng mật khẩu."
+        result.code = 10
+    }
+    else
+        result.isValid = true
+    return result
+}
+
 module.exports.getQuestionValues = getQuestionValues;
 module.exports.getChoiceValues = getChoiceValues;
+module.exports.validateRegister = validateRegister;

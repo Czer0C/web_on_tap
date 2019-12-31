@@ -26,15 +26,15 @@ export default class SecurityComponent extends Component {
                         <center>
                         <div class="form-group col-md-5">
                                 <label className="profile-info-label" for="inputPassword">Mật Khẩu Cũ</label>
-                                <input type="password" class="form-control" id="inputPassword" value={""} placeholder="Mật Khẩu Cũ"/>
+                                <input type="password" class="form-control profile-input" id="inputPassword" value={""} placeholder="Mật Khẩu Cũ"/>
                             </div>
                             <div class="form-group col-md-5">
                                 <label className="profile-info-label" for="inputNewPassword">Mật Khẩu Mới</label>
-                                <input type="password" class="form-control" id="inputNewPassword" value={""} placeholder="Mật Khẩu Mới"/>
+                                <input type="password" class="form-control profile-input" id="inputNewPassword" value={""} placeholder="Mật Khẩu Mới"/>
                             </div>
                             <div class="form-group col-md-5">
                                 <label className="profile-info-label" for="inputPasswordRe">Nhập lại Mật Khẩu mới</label>
-                                <input type="password" class="form-control" id="inputPasswordRe" value={""} placeholder="Mật Khẩu Mới"/>
+                                <input type="password" class="form-control profile-input" id="inputPasswordRe" value={""} placeholder="Mật Khẩu Mới"/>
                             </div>
                         </center>
 

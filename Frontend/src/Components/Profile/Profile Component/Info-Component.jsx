@@ -37,21 +37,21 @@ export default class InfoComponent extends Component {
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label className="profile-info-label" for="inputUsername">Tên Đăng Nhập</label>
-                                <input type="text" class="form-control" id="inputUsername" value={info.TenDangNhap} placeholder="Tên Đăng Nhập"/>
+                                <input type="text" class="form-control profile-input" id="inputUsername" value={info.TenDangNhap} placeholder="Tên Đăng Nhập"/>
                             </div>
                             <div class="form-group col-md-6">
                                 <label className="profile-info-label" for="inputEmail4">Email</label>
-                                <input type="email" class="form-control" id="inputEmail4" placeholder="Email"/>
+                                <input type="email" class="form-control profile-input" id="inputEmail4" value={info.Email} placeholder="Email"/>
                             </div>
                         </div>
                         <div className="form-row">
                             <div class="form-group col-md-6">
                                 <label className="profile-info-label" for="inputFullname">Họ Tên</label>
-                                <input type="text" class="form-control" id="inputFullname" value={info.HoTen} placeholder="Họ Tên"/>
+                                <input type="text" class="form-control profile-input" id="inputFullname" value={info.HoTen} placeholder="Họ Tên"/>
                             </div>
                             <div class="form-group col-md-6">
                                 <label className="profile-info-label" for="inputGrade">Lớp</label>
-                                <select id="inputGrade" class="form-control">
+                                <select id="inputGrade" class="form-control profile-input">
                                     <option selected>{info.Lop}</option>
                                     <option>...</option>
                                 </select>

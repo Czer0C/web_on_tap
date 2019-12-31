@@ -3,6 +3,7 @@ var router = express.Router()
 var pool = require('../Middleware/database')
 
 var checkAuth =  require('../utility/checkAuth')
+var utility = require('../utility/utility')
 
 router.get('/', (req, res, next) => {
   let verified = checkAuth.verify(req)
@@ -36,6 +37,60 @@ router.post('/dangnhap', (req, res, next) => {
   })
 })
 
+router.post('/dangky', (req, res, next) => {
+  let item = req.body
+  
+  let validation = utility.validateRegister(item)
+  if (validation.isValid) {
+    let usernameCheckQuery = `SELECT * FROM NguoiDung WHERE TenDangNhap = '${item.username}'`
+    
+    pool.query(usernameCheckQuery, (error, result) => {
+      if (error) throw error
+      
+      if (result.length !== 0)
+        res.send(JSON.stringify({
+          success: false,
+          message: "Tên đăng nhập này đã tồn tại.",
+          code: 11
+        }))
+      else {
+        let emailCheckQuery = `SELECT * FROM NguoiDung WHERE Email = '${item.email}'`
+        
+        pool.query(emailCheckQuery, (error, result) => {
+          if (error) throw error
+
+          if (result.length !== 0)
+            res.send(JSON.stringify({
+              success: false,
+              message: "Email này đã tồn tại.",
+              code: 12
+            }))
+          else {
+            let registerQuery = ` INSERT INTO NguoiDung (HoTen, Lop, MatKhau, DiemTichLuy, TenDangNhap, Email, LoaiNguoiDung) 
+                                  VALUES ('${item.fullname}', '${item.grade}', '${item.password}', '0', '${item.username}', '${item.email}', '1')`
+
+            pool.query(registerQuery, (error, result) => {
+              if (error) throw error
+
+              res.send(JSON.stringify({
+                success: true
+              }))
+            })
+          }
+        })
+      }
+    })
+
+  }
+  else {
+    res.send(JSON.stringify({
+      success: false,
+      message: validation.message,
+      code: validation.code
+    }))
+  }
+})
+
 router.delete('/dangxuat', (req, res, next) => {
   let verified = checkAuth.verify(req)
 
@@ -65,7 +120,7 @@ router.get('/lay/:userID', (req, res, next) => {
 
   if (verified === true) {
     let userID = req.params.userID
-    let getUserInfoQuery = "SELECT MaNguoiDung, HoTen, Lop, DiemTichLuy, LoaiNguoiDung, TenDangNhap FROM NguoiDung WHERE MaNguoiDung = " + userID
+    let getUserInfoQuery = "SELECT MaNguoiDung, HoTen, Lop, DiemTichLuy, LoaiNguoiDung, TenDangNhap, Email FROM NguoiDung WHERE MaNguoiDung = " + userID
     pool.query(getUserInfoQuery, (error, result) => {
       if (error) throw error
 

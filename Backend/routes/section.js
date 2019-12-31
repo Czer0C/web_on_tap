@@ -58,7 +58,7 @@ router.post('/batdau', (req, res, next) => {
                     if (error) throw error
                     
                     sectionID = JSON.parse(JSON.stringify(result))[0].MaPhienLamBai
-                    console.log(sectionID)
+                    //console.log(sectionID)
                     res.send(JSON.stringify({
                         success: true,
                         sectionID: sectionID
@@ -83,7 +83,7 @@ router.post('/batdau', (req, res, next) => {
 
 router.patch('/ketthuc', (req, res, next) => {
     let verified = checkAuth.verify(req)
-    console.log(req.body)
+    //console.log(req.body)
     if (verified === true) {
         let data = req.body
         let time = new Date(data.endTime)
