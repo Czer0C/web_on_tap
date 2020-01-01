@@ -107,6 +107,158 @@ router.post('/dangky', (req, res, next) => {
   }
 })
 
+
+router.patch('/capnhatthongtin', (req, res, next) => {
+  let verified = checkAuth.verify(req)
+  
+  if (verified === true) {
+    let validation = utility.validateUpdateUser(req.body.info)
+    if (validation.isValid) {
+      
+      let userID = req.body.id
+      const {
+        inputUsername,
+        inputEmail,
+        inputFullname,
+        inputGrade
+      } = req.body.info
+
+      let usernameCheckQuery = `SELECT * FROM NguoiDung WHERE TenDangNhap = '${inputUsername}'`
+    
+      pool.query(usernameCheckQuery, (error, result) => {
+        if (error) throw error
+
+        if (result.length !== 0 && userID !== result[0].MaNguoiDung)
+          res.send(JSON.stringify({
+            success: false,
+            message: "Tên đăng nhập này đã tồn tại.",
+            code: 7
+          }))
+        else {
+          let emailCheckQuery = `SELECT * FROM NguoiDung WHERE Email = '${inputEmail}'`
+          
+          pool.query(emailCheckQuery, (error, result) => {
+            if (error) throw error
+
+            if (result.length !== 0 && userID !== result[0].MaNguoiDung)
+              res.send(JSON.stringify({
+                success: false,
+                message: "Email này đã tồn tại.",
+                code: 8
+              }))
+            else {
+              let updateUserQuery = `UPDATE NguoiDung 
+                                    SET TenDangNhap = '${inputUsername}', Email = '${inputEmail}', HoTen = '${inputFullname}', Lop = '${inputGrade}'
+                                    WHERE MaNguoiDung = '${userID}'`
+              pool.query(updateUserQuery, (error, result) => {
+                if (error) throw error
+          
+                if (result.affectedRows === 1) {
+                  res.send(JSON.stringify({
+                    success: true
+                  }))
+                } 
+                else {        
+                  res.send(JSON.stringify({
+                    success: false,
+                    message: "Không thể cập nhật xuống database!",
+                    code: 9
+                  }))
+                }
+              })
+            }})
+        }
+      })
+    }
+    else {
+      res.send(JSON.stringify({
+        success: false,
+        message: validation.message,
+        code: validation.code
+      }))
+    }
+    
+  }
+  else {
+    res.send(JSON.stringify({
+      success: false,
+      message: "ERROR 404!",
+      code: -1
+    }))
+  }
+})
+
+router.patch('/capnhatmatkhau', (req, res, next) => {
+  let verified = checkAuth.verify(req)
+  
+  if (verified === true) {
+    let item = req.body.info
+    let userID = req.body.id
+    let validation = utility.validateNewPassword(item)
+    
+    if (validation.isValid) {
+      let getPasswordQuery = `SELECT MatKhau FROM NguoiDung WHERE MaNguoiDung = '${userID}'`
+
+      pool.query(getPasswordQuery, (error, result) => {
+        if (error) throw error
+
+        bcrypt.compare(item.oldPassword, result[0].MatKhau, (error, result) => {
+          if (error) throw error
+
+          if (result) {
+            bcrypt.hash(item.newPassword, 10, (error, newHashedPassword) => {
+              if (error) throw error
+              
+              let updatePasswordQuery = `UPDATE NguoiDung SET MatKhau = '${newHashedPassword}' WHERE MaNguoiDung = '${userID}'`
+
+              pool.query(updatePasswordQuery, (error, result) => {
+                if (error) throw error
+
+                if (result.affectedRows === 1) {
+                  res.send({
+                    success: true
+                  })
+                }
+                else {
+                  res.send({
+                    success: false,
+                    message: "Không thể lưu mật khẩu mới xuống database, hãy thử lại.",
+                    code: -1
+                  })
+                }
+              })
+            })
+            
+
+          }
+          else {
+            res.send(JSON.stringify({
+              success: false,
+              message: "Mật khẩu cũ không hợp lệ.",
+              code: 6
+            }))
+          }
+        })
+      })
+    }
+    else {
+      res.send(JSON.stringify({
+        success: false,
+        message: validation.message,
+        code: validation.code
+      }))
+    }
+
+    
+  }
+  else {
+    res.send(JSON.stringify({
+      success: false,
+      message: "Error 404"
+    }))
+  }
+})
+
 router.delete('/dangxuat', (req, res, next) => {
   let verified = checkAuth.verify(req)
 

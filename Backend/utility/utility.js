@@ -83,6 +83,75 @@ validateRegister = (input) => {
     return result
 }
 
+validateUpdateUser = input => {
+    let result = {
+        isValid: false,
+        message: "",
+        code: 0
+    }
+
+    if (input.inputUsername === '') {
+        result.message = "Tên đăng nhập không được để trống."
+        result.code = 1
+    }
+    else if (input.inputEmail === '') {
+        result.message = "Email không được để trống."
+        result.code = 2
+    }
+    else if (input.inputFullname === '') {
+        result.message = "Họ tên không được để trống."
+        result.code = 3
+    }
+    else if (input.inputGrade === '') {
+        result.message = "Lớp không được để trống."        
+        result.code = 4
+    }
+    else if (isNaN(parseInt(input.inputGrade))) {
+        result.message = "Lớp phải là một giá trị số."
+        result.code = 5
+    }
+    else if (parseInt(input.inputGrade) < 1 || parseInt(input.inputGrade) > 5)  {
+        result.message = "Lớp phải từ 1 tới 5."
+        result.code = 6
+    }
+    else
+        result.isValid = true
+    return result
+}
+
+validateNewPassword = input => {
+    let result = {
+        isValid: false,
+        message: "",
+        code: 0
+    }
+    if (input.oldPassword === '') {
+        result.message = "Mật khẩu cũ không được để trống."
+        result.code = 1
+    }
+    else if (input.newPassword === '') {
+        result.message = "Bạn chưa nhập mật khẩu mới."
+        result.code = 2
+    }
+    else if (input.newPassword.length < 6) {
+        result.message = "Mật khẩu mới quá yếu, cần ít nhất 6 ký tự."
+        result.code = 3
+    }
+    else if (input.reNewPassword === '') {
+        result.message = "Bạn chưa nhập lại mật khẩu mới."
+        result.code = 4
+    }
+    else if (input.newPassword !== input.reNewPassword) {
+        result.message = "Bạn chưa nhập lại đúng mật khẩu mới."
+        result.code = 5
+    }
+    else
+        result.isValid = true
+    return result
+}
+
 module.exports.getQuestionValues = getQuestionValues;
 module.exports.getChoiceValues = getChoiceValues;
 module.exports.validateRegister = validateRegister;
+module.exports.validateUpdateUser = validateUpdateUser;
+module.exports.validateNewPassword = validateNewPassword;
