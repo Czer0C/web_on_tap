@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Line} from 'rc-progress';
 import Modal from 'react-responsive-modal'; 
-
+import exam from './exam.json';
 export default class ExamContainer extends Component {
     constructor(props) {
         super(props);
@@ -162,6 +162,7 @@ export default class ExamContainer extends Component {
     }
 
     componentDidMount() {
+        console.log(exam)
         this.getExam()
         console.log(this.state)
     }

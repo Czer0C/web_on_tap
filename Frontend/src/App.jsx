@@ -16,6 +16,7 @@ import Profile from './Components/Profile/Profile';
 import Login from './Components/Login/Login';
 import "./App.css"; 
 import Register from './Components/Register/Register';
+import ExamTest from './Components/Exam-Main/Exam-Test';
 
 
 
@@ -98,8 +99,8 @@ export default class App extends Component {
                                 <Route exact path="/dangnhap" render={GenericRoute(Login)}></Route>
                                 <Route exact path="/dangky" render={GenericRoute(Register)}></Route>
                                 <Route exact path="/canhan" render={GenericRoute(Profile, userGrade, userID, username, userType)} />
-                                <Route path="/luyen/:mabaikiemtra" render={GenericRoute(ExamContainer, userGrade, userID, username, userType)} />
-
+                                <Route path="/luyen/:mabaikiemtra" render={GenericRoute(ExamTest, userGrade, userID, username, userType)} />
+                                <Route path="/test" render={GenericRoute(ExamTest, userGrade, userID, username, userType)} ></Route>
                                 <Route exact path="/admin" render={ProtectedRoute(ExamManager, userGrade, userID, username, userType)} />
 
                                 <Route exact path="/sosanh" render={GenericRoute(CompareComponent, userGrade, userID, username, userType)} />

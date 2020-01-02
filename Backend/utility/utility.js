@@ -150,8 +150,31 @@ validateNewPassword = input => {
     return result
 }
 
+getMark = (choices, questions) => {
+    let sum = 0
+    for (var i = 0; i < questions.length; i++) {
+        switch (questions[i].LoaiCauHoi) {
+            case 1:
+                sum += questions[i].CauTraLoi === choices[i].content
+                break;
+            case 2:
+                sum += questions[i].CauTraLoi === choices[i].content
+                break;
+            case 3:
+                let correctAnswer = questions[i].CauTraLoi.split(";")
+                let allCorrect = true
+                for (var j = 0; j < correctAnswer.length; j++) 
+                    allCorrect = choices[i].content[j] === correctAnswer[j]
+                sum += allCorrect
+                break;
+        }
+    }
+    return sum
+}
+
 module.exports.getQuestionValues = getQuestionValues;
 module.exports.getChoiceValues = getChoiceValues;
 module.exports.validateRegister = validateRegister;
 module.exports.validateUpdateUser = validateUpdateUser;
 module.exports.validateNewPassword = validateNewPassword;
+module.exports.getMark = getMark;
