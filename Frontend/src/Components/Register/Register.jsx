@@ -36,7 +36,7 @@ export default class Register extends Component {
                     userType: signin.userType,
                     token_key: signin.token_key
                 })
-                window.location.replace('//localhost:3000');
+                window.location.replace('https://web-on-tap.firebaseapp.com');
             }
         }
     }
@@ -46,7 +46,7 @@ export default class Register extends Component {
             username: this.state.inputUsername,
             password: this.state.inputPassword
         }
-        fetch(`http://localhost:9000/nguoidung/dangnhap`, {
+        fetch(`https://web-tv-5.herokuapp.com/nguoidung/dangnhap`, {
             method: `POST`,
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(item)
@@ -71,7 +71,7 @@ export default class Register extends Component {
                     token_key: json.token
                 })
 
-                window.location.replace('//localhost:3000');
+                window.location.replace('https://web-on-tap.firebaseapp.com');
             }
             else {
                 this.setState({

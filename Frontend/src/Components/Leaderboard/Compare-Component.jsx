@@ -11,7 +11,7 @@ export default class CompareComponent extends Component {
     }
 
     getData() {
-        fetch("http://localhost:9000/nguoidung/lay")
+        fetch("https://web-tv-5.herokuapp.com/nguoidung/lay")
         .then(res => res.text())
         .then(res => {
             this.setState({

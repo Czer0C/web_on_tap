@@ -13,7 +13,7 @@ export default class HomeComponent extends Component {
         this.filterList = this.filterList.bind(this);
     }
     getExam() {
-        fetch("http://localhost:9000/baikiemtra/lay", {
+        fetch("https://web-tv-5.herokuapp.com/baikiemtra/lay", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

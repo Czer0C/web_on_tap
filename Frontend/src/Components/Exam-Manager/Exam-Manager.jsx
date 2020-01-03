@@ -172,7 +172,7 @@ export default class ExamManager extends Component {
         }
 
         console.log(item)
-        fetch(`http://localhost:9000/baikiemtra/them`, {
+        fetch(`https://web-tv-5.herokuapp.com/baikiemtra/them`, {
             method: `post`,
             headers: {
                 "Content-Type": "application/json",

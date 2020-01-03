@@ -33,7 +33,7 @@ export default class SecurityComponent extends Component {
         this.setState({
             running: true
         })
-        fetch(`http://localhost:9000/nguoidung/capnhatmatkhau`, {
+        fetch(`https://web-tv-5.herokuapp.com/nguoidung/capnhatmatkhau`, {
                 method: `PATCH`,
                 headers: {
                     "Content-Type": "application/json",

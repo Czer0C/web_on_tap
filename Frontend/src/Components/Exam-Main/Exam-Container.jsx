@@ -39,7 +39,7 @@ export default class ExamContainer extends Component {
     getExam() {
         let query = window.location.href.split("/")
         let param = query[query.length - 1] 
-        fetch("http://localhost:9000/baikiemtra/lay/" + param, {
+        fetch("https://web-tv-5.herokuapp.com/baikiemtra/lay/" + param, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default class ExamContainer extends Component {
     }
 
     submitEntry() {
-        fetch("http://localhost:9000/phienlambai/batdau", {
+        fetch("https://web-tv-5.herokuapp.com/phienlambai/batdau", {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -114,7 +114,7 @@ export default class ExamContainer extends Component {
     }
 
     finishExam(mark) {
-        fetch("http://localhost:9000/phienlambai/ketthuc", {
+        fetch("https://web-tv-5.herokuapp.com/phienlambai/ketthuc", {
             method: 'PATCH',
             headers: {
                 "Content-Type": "application/json",

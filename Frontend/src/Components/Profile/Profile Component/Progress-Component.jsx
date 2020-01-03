@@ -14,7 +14,7 @@ export default class ProgressComponent extends Component {
     }
 
     getSection() {
-        fetch("http://localhost:9000/phienlambai/lay/" + this.props.info.MaNguoiDung, {
+        fetch("https://web-tv-5.herokuapp.com/phienlambai/lay/" + this.props.info.MaNguoiDung, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

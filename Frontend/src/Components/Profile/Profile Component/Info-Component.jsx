@@ -36,7 +36,7 @@ export default class InfoComponent extends Component {
         this.setState({
             running: true
         })
-        fetch(`http://localhost:9000/nguoidung/capnhatthongtin`, {
+        fetch(`https://web-tv-5.herokuapp.com/nguoidung/capnhatthongtin`, {
                 method: `PATCH`,
                 headers: {
                     "Content-Type": "application/json",
@@ -61,7 +61,7 @@ export default class InfoComponent extends Component {
                     })
                    alert("Cập nhật thành công.")
                    
-                    window.location.replace('//localhost:3000/canhan');
+                    window.location.replace('https://web-on-tap.firebaseapp.com/canhan');
                    
                 }
                 else {
