@@ -89,36 +89,63 @@ export default class SecurityComponent extends Component {
                         <center>
                         <div class="form-group col-md-5">
                                 <label className="profile-info-label" for="inputPassword">Mật Khẩu Cũ</label>
-                                <input 
-                                    type="password" 
-                                    class="form-control profile-input" 
-                                    id="inputPassword" 
-                                    value={this.state.inputOldPassword} 
-                                    placeholder="Mật Khẩu Cũ"
-                                    onChange={this.onChangeinputOldPassword}
-                                />
+                                <div className="input-group">
+                                    <input 
+                                        type="password" 
+                                        class="form-control profile-input" 
+                                        id="inputPassword" 
+                                        value={this.state.inputOldPassword} 
+                                        placeholder="Mật Khẩu Cũ"
+                                        onChange={this.onChangeinputOldPassword}
+                                    />
+                                    <div 
+                                        className="col-md-1 error" 
+                                        hidden={!error || !(errorCode === 1 || errorCode === 6)}>
+                                        <span class="input-group-addon error">
+                                            <i class="material-icons">error</i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group col-md-5">
                                 <label className="profile-info-label" for="inputNewPassword">Mật Khẩu Mới</label>
-                                <input 
-                                    type="password" 
-                                    class="form-control profile-input"
-                                    id="inputNewPassword" 
-                                    value={this.state.inputNewPassword}
-                                    placeholder="Mật Khẩu Mới"
-                                    onChange={this.onChangeinputNewPassword}
-                                />
+                                <div className="input-group">
+                                    <input 
+                                        type="password" 
+                                        class="form-control profile-input"
+                                        id="inputNewPassword" 
+                                        value={this.state.inputNewPassword}
+                                        placeholder="Mật Khẩu Mới"
+                                        onChange={this.onChangeinputNewPassword}
+                                    />
+                                    <div 
+                                        className="col-md-1 error" 
+                                        hidden={!error || !(errorCode === 2 || errorCode === 3 || errorCode === 5)}>
+                                        <span class="input-group-addon error">
+                                            <i class="material-icons">error</i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group col-md-5">
                                 <label className="profile-info-label" for="inputPasswordRe">Nhập lại Mật Khẩu mới</label>
-                                <input 
-                                    type="password"
-                                    class="form-control profile-input"
-                                    id="inputPasswordRe" 
-                                    value={this.state.inputReNewPassword} 
-                                    placeholder="Mật Khẩu Mới"
-                                    onChange={this.onChangeinputReNewPassword}
-                                />
+                                <div className="input-group">
+                                    <input 
+                                        type="password"
+                                        class="form-control profile-input"
+                                        id="inputPasswordRe" 
+                                        value={this.state.inputReNewPassword} 
+                                        placeholder="Mật Khẩu Mới"
+                                        onChange={this.onChangeinputReNewPassword}
+                                    />
+                                    <div 
+                                        className="col-md-1 error" 
+                                        hidden={!error || !(errorCode === 4 || errorCode === 5)}>
+                                        <span class="input-group-addon error">
+                                            <i class="material-icons">error</i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </center>
 
