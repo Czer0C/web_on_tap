@@ -84,10 +84,10 @@ export default class ExamQA extends Component {
                     ans.content = -1
                     break;
                 case 2:
-                    ans.content = "dum"
+                    ans.content = ""
                     break;
                 case 3:
-                    ans.content = ["dum1", "dum2"]
+                    ans.content = ["", ""]
                     break;
             }
 
