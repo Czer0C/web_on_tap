@@ -58,6 +58,9 @@ export default class ExamCommand extends Component {
             }
             else { // Hết giờ
                 this.props.onChangeCommand(2)
+                this.setState({
+                    open: true
+                })
             }
             if (this.props.status === 2) { // Nộp bài sớm
                 clearInterval(this.myInterval)

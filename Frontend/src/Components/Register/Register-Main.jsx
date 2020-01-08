@@ -44,7 +44,7 @@ export default class RegisterMain extends Component {
             repassword: this.state.inputRePassword
         }
 
-        fetch(`http://localhost:9000/nguoidung/dangky`, {
+        fetch(`https://web-tv-5.herokuapp.com/nguoidung/dangky`, {
             method: `POST`,
             headers: {
                 "Content-Type": "application/json",
@@ -54,14 +54,14 @@ export default class RegisterMain extends Component {
           })
         .then((res) => res.json())
         .then((json) => {
-            console.log(json)
+            //console.log(json)
             if (json.success) {
                 this.setState({
                     error: false,
                     running: false
                 })
                 alert("Tạo tài khoản thành công.")
-                window.location.replace('//localhost:3000/dangnhap');
+                window.location.replace('https://web-on-tap.firebaseapp.com/dangnhap');
             }
             else {
                 this.setState({

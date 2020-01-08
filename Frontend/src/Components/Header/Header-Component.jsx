@@ -20,7 +20,7 @@ export default class Header extends Component    {
     handleLogout() {
         const signout = getFromStorage('signin');
         if (signout && signout.token_key) {
-            fetch(`http://localhost:9000/nguoidung/dangxuat`, {
+            fetch(`https://web-tv-5.herokuapp.com/nguoidung/dangxuat`, {
                 method: `DELETE`,
                 headers: {
                     "Content-Type": "application/json",
@@ -32,8 +32,7 @@ export default class Header extends Component    {
             .then((json) => {
                 if (json.success) {
                     removeFromStorage('signin');
-                    window.location.replace('//localhost:3000');
-                    //window.location.replace("https://chidori-auction.herokuapp.com/");    
+                    window.location.replace('https://web-on-tap.firebaseapp.com');
                 }
                 else {
                     alert("Thất bại, hãy thử lại sau.")
@@ -67,6 +66,11 @@ export default class Header extends Component    {
                         </div>
                         <div class="collapse navbar-collapse">
                             <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <NavLink className="nav-link" activeClassName="nav-link active" to="/" style={navStyle}>
+                                        <i class="material-icons">&nbsp;home</i>Trang chủ&nbsp;
+                                    </NavLink>
+                                </li>
                                 <li class="nav-item">
                                     <NavLink className="nav-link" activeClassName="nav-link active" to="/sosanh" style={navStyle}>
                                         <i class="material-icons">&nbsp;bar_chart</i>So sánh&nbsp;

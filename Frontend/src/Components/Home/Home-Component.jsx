@@ -13,23 +13,25 @@ export default class HomeComponent extends Component {
         this.filterList = this.filterList.bind(this);
     }
     getExam() {
-        fetch("http://localhost:9000/baikiemtra/lay", {
+        fetch("https://web-tv-5.herokuapp.com/baikiemtra/lay", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': `Bearer 669`
             }
         })
-        .then(res => res.text())
+        .then(res => res.json())
         .then(res => {
-            var temp = JSON.parse(res)
-            if (this.state.userGrade !== -1) {      
-                temp = temp.filter((item) => {
-                    return item["Lop"] === parseInt(this.state.userGrade)
-                })
+            var temp = res.exams
+            let grade = this.state.userGrade
+            if (grade !== -1) {   
+               temp = temp.filter((item) => {
+                   return item["Lop"] === grade
+               })
+                
             }
             this.setState({
-                data: JSON.parse(res),
+                data: res.exams,
                 displayData: temp
             })
             

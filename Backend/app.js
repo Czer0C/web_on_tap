@@ -4,6 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
+
+var http = require("http");
+setInterval(function() {
+    http.get("http://web-tv-5.herokuapp.com/");
+}, 300000); // every 5 minutes (300000)
+
+
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -52,5 +59,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("../Frontend/build"));
+}
 
 module.exports = app;

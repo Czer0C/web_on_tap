@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "web-on-tap",
+    "web-on-tap": "web-on-tap"
+  }
+}

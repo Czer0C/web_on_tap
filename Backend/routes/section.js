@@ -45,11 +45,11 @@ router.post('/batdau', (req, res, next) => {
     
     if (verified === true) {
         let data = req.body
-        let time = new Date(data.startTime)
+        let startTime = new Date()
         let sectionID = -1
         let getSectionIDQuery = "SELECT MaPhienLamBai FROM PhienLamBai WHERE MaPhienLamBai=(SELECT MAX(MaPhienLamBai) FROM PhienLamBai)"
         let insertSectionQuery =  `INSERT INTO PhienLamBai (MaNguoiDung, MaBaiKiemTra, ThoiGianBatDau, KetThuc)
-                                    VALUES ('${data.userID}', '${data.examID}', '${time.toISOString().replace('Z', '').replace('T', ' ')}', '0')
+                                    VALUES ('${data.userID}', '${data.examID}', '${startTime.toISOString().replace('Z', '').replace('T', ' ')}', '0')
                                     `
         pool.query(insertSectionQuery, (error, result) => {
             if (error) throw error
@@ -89,11 +89,10 @@ router.patch('/ketthuc', (req, res, next) => {
             userID,
             examID,
             choices,
-            sectionID,
-            endTime
+            sectionID
         } = req.body
 
-        let time = new Date(endTime)
+        let endTime = new Date()
         let getQuestionQuery = `SELECT * FROM CauHoi WHERE MaBaiKiemTra = '${examID}'`
 
         pool.query(getQuestionQuery, (error, questions) => {
@@ -103,7 +102,7 @@ router.patch('/ketthuc', (req, res, next) => {
 
             let score = 100 * mark
             let updateSectionQuery =  `UPDATE PhienLamBai 
-                                    SET ThoiGianKetThuc = '${time.toISOString().replace('Z', '').replace('T', ' ')}', DiemSo = '${score}', KetThuc = '1'
+                                    SET ThoiGianKetThuc = '${endTime.toISOString().replace('Z', '').replace('T', ' ')}', DiemSo = '${score}', KetThuc = '1'
                                     WHERE (MaPhienLamBai = '${sectionID}')
                                     `
             pool.query(updateSectionQuery, (error, result) => {

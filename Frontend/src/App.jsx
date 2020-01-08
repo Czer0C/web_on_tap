@@ -4,11 +4,9 @@ import {getFromStorage} from './utility/storage';
 
 import './assets/css/material-kit.css';
 import Header from './Components/Header/Header-Component';
-import ExamManager from './Components/Exam-Manager/Exam-Manager';
 import ErrorComponent from './Components/Error/Error-Component'
 import HomeComponent from './Components/Home/Home-Component';
 import CompareComponent from './Components/Leaderboard/Compare-Component';
-import ExamContainer from './Components/Exam-Main/Exam-Container';
 
 import "./assets/js/bootstrap-material-design.js"
 import "./Components/Home/Home.css";
@@ -17,6 +15,8 @@ import Login from './Components/Login/Login';
 import "./App.css"; 
 import Register from './Components/Register/Register';
 import ExamTest from './Components/Exam-Main/Exam-Test';
+import ManagerMain from './Components/Exam-Manager/Manager-Main';
+import ExamAdd from './Components/Exam-Manager/Exam-Add';
 
 
 
@@ -101,8 +101,8 @@ export default class App extends Component {
                                 <Route exact path="/canhan" render={GenericRoute(Profile, userGrade, userID, username, userType)} />
                                 <Route path="/luyen/:mabaikiemtra" render={GenericRoute(ExamTest, userGrade, userID, username, userType)} />
                                 <Route path="/test" render={GenericRoute(ExamTest, userGrade, userID, username, userType)} ></Route>
-                                <Route exact path="/admin" render={ProtectedRoute(ExamManager, userGrade, userID, username, userType)} />
-
+                                <Route exact path="/admin" render={ProtectedRoute(ManagerMain, userGrade, userID, username, userType)} />
+                                <Route exact path="/admin/add" render={ProtectedRoute(ExamAdd, userGrade, userID, username, userType)} />
                                 <Route exact path="/sosanh" render={GenericRoute(CompareComponent, userGrade, userID, username, userType)} />
                                 <Route path="/:wrong" render={GenericRoute(ErrorComponent)} />
                             </Switch>

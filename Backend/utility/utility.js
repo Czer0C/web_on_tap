@@ -11,6 +11,8 @@ getQuestionValues = (questionList, newExamID) => {
         temp.push(question.ID)
         temp.push(newExamID)
         temp.push(question.content)
+        temp.push(question.type)
+        temp.push(question.correctChoice)
         result.push(temp)
     });
     return result
@@ -152,23 +154,25 @@ validateNewPassword = input => {
 
 getMark = (choices, questions) => {
     let sum = 0
-    for (var i = 0; i < questions.length; i++) {
-        switch (questions[i].LoaiCauHoi) {
-            case 1:
-                sum += questions[i].CauTraLoi === choices[i].content
-                break;
-            case 2:
-                sum += questions[i].CauTraLoi === choices[i].content
-                break;
-            case 3:
-                let correctAnswer = questions[i].CauTraLoi.split(";")
-                let allCorrect = true
-                for (var j = 0; j < correctAnswer.length; j++) 
-                    allCorrect = choices[i].content[j] === correctAnswer[j]
-                sum += allCorrect
-                break;
+    if (choices.length !== 0) {
+        for (var i = 0; i < questions.length; i++) {
+            switch (questions[i].LoaiCauHoi) {
+                case 1:
+                    sum += questions[i].CauTraLoi === choices[i].content
+                    break;
+                case 2:
+                    sum += questions[i].CauTraLoi === choices[i].content
+                    break;
+                case 3:
+                    let correctAnswer = questions[i].CauTraLoi.split(";")
+                    let allCorrect = true
+                    for (var j = 0; j < correctAnswer.length; j++) 
+                        allCorrect = choices[i].content[j] === correctAnswer[j]
+                    sum += allCorrect
+                    break;
+            }
         }
-    }
+    }    
     return sum
 }
 

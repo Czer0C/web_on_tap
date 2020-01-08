@@ -122,7 +122,7 @@ export default class ExamQA extends Component {
             answer,
             size
         } = this.state
-        console.log(questions)
+        //console.log(questions)
         return (        
             <div>
                             {
