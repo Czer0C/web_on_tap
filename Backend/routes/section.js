@@ -45,7 +45,7 @@ router.post('/batdau', (req, res, next) => {
     
     if (verified === true) {
         let data = req.body
-        let time = new Date(data.startTime)
+        let time = new Date()
         let sectionID = -1
         let getSectionIDQuery = "SELECT MaPhienLamBai FROM PhienLamBai WHERE MaPhienLamBai=(SELECT MAX(MaPhienLamBai) FROM PhienLamBai)"
         let insertSectionQuery =  `INSERT INTO PhienLamBai (MaNguoiDung, MaBaiKiemTra, ThoiGianBatDau, KetThuc)
@@ -83,17 +83,16 @@ router.post('/batdau', (req, res, next) => {
 })
 router.patch('/ketthuc', (req, res, next) => {
     let verified = checkAuth.verify(req)
-
+    
     if (verified === true) {
         const {
             userID,
             examID,
             choices,
-            sectionID,
-            endTime
+            sectionID
         } = req.body
 
-        let time = new Date(endTime)
+        let time = new Date()
         let getQuestionQuery = `SELECT * FROM CauHoi WHERE MaBaiKiemTra = '${examID}'`
 
         pool.query(getQuestionQuery, (error, questions) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-responsive-modal'; 
-import { Line, Circle } from 'rc-progress';
+import { Line } from 'rc-progress';
 
 export default class ExamManager extends Component {
     constructor(props) {

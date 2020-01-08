@@ -8,7 +8,6 @@ import ExamManager from './Components/Exam-Manager/Exam-Manager';
 import ErrorComponent from './Components/Error/Error-Component'
 import HomeComponent from './Components/Home/Home-Component';
 import CompareComponent from './Components/Leaderboard/Compare-Component';
-import ExamContainer from './Components/Exam-Main/Exam-Container';
 
 import "./assets/js/bootstrap-material-design.js"
 import "./Components/Home/Home.css";

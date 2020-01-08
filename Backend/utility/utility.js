@@ -152,6 +152,8 @@ validateNewPassword = input => {
 
 getMark = (choices, questions) => {
     let sum = 0
+    if (choices.length === 0)
+        return 0
     for (var i = 0; i < questions.length; i++) {
         switch (questions[i].LoaiCauHoi) {
             case 1:
