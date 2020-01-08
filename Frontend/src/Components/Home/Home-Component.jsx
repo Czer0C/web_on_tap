@@ -91,7 +91,7 @@ export default class HomeComponent extends Component {
                         <div className="container">
                             <div class="main main-raised main-product">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Lớp
                                     </button>
                                     <div class="dropdown-menu">
