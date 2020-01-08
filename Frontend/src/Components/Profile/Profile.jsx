@@ -13,7 +13,7 @@ export default class Profile extends Component {
     }
 
     getUserInfo() {
-        fetch("http://localhost:9000/nguoidung/lay/" + this.props.userID, {
+        fetch("https://web-tv-5.herokuapp.com/nguoidung/lay/" + this.props.userID, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

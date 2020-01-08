@@ -12,9 +12,42 @@ router.get('/',  (req, res, next) => {
         res.send('Exams');
     }
     else {
-        res.send("Error 404")
+        res.send("Unauthorized Access.")
     }
 });
+
+router.get('/laychitiet/:examID', (req, res, next) => {
+    let verified = checkAuth.verify(req)
+
+    if (verified === true) {
+        let examID = req.params.examID
+        let getQuestionsQuery = `SELECT * FROM CauHoi WHERE MaBaiKiemTra = '${examID}' `
+
+        pool.query(getQuestionsQuery, (error, quesions) => {
+            if (error) throw error
+
+            let getChoicesQuery = `SELECT * FROM LuaChon WHERE MaBaiKiemTra = '${examID}' `
+
+            pool.query(getChoicesQuery, (error, choices) => {
+                if (error) throw error
+                
+                res.send(JSON.stringify({
+                    success: true,
+                    questions: quesions,
+                    choices: choices
+                }))
+            })
+        })
+
+        
+    }
+    else {
+        res.send(JSON.stringify({
+            success: false,
+            message: "Error 401."
+        }))
+    }
+})
 
 router.get('/lay', (req, res, next) => {
     let verified = checkAuth.verify(req)
@@ -23,11 +56,17 @@ router.get('/lay', (req, res, next) => {
         let getExamQuery = "SELECT * FROM BaiKiemTra"
         pool.query(getExamQuery, (err, result) => {
         if (err) throw err
-            res.send(JSON.stringify(result))
+            res.send(JSON.stringify({
+                success: true,
+                exams: result
+            }))
         })
     }
     else {
-        res.send("Error 404")
+        res.send({
+            success: false,
+            message: "Error 404"
+        })
     }
 })
 
@@ -92,7 +131,7 @@ router.post('/them', (req, res, next) => {
                 if (result.length !== 0)
                     newExamID = JSON.parse(JSON.stringify(result))[0].MaBaiKiemTra;
 
-                var insertQuestionQuery = "INSERT INTO CauHoi (SoThuTu, MaBaiKiemTra, NoiDung) VALUES ?"
+                var insertQuestionQuery = "INSERT INTO CauHoi (SoThuTu, MaBaiKiemTra, NoiDung, LoaiCauHoi, CauTraLoi) VALUES ?"
                 var questionValues = utility.getQuestionValues(requestBody.questionList, newExamID)
 
                 pool.query(insertQuestionQuery, [questionValues], (e3, r) => {
