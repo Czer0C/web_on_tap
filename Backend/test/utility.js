@@ -1,21 +1,19 @@
 
 var utility = require('../utility/utility')
-//Require the dev-dependencies
-describe('Test validateRegister', () => {
-   
-   
-    let item = {
-        fullname: "his.state.inputFullname",
-        grade: "4",
-        email: "inputEmail@gmail.com",
-        username: "inputUsername",
-        password: "inputPassword",
-        repassword: "inputPassword"
-    }
 
+//Require the dev-dependencies
+var item1 = {
+    fullname: "his.state.inputFullname",
+    grade: "4",
+    email: "inputEmail@gmail.com",
+    username: "inputUsername",
+    password: "inputPassword",
+    repassword: "inputPassword"
+}
+describe('Test validateRegister', () => {
     describe('Check validateRegister True', () => {
         it('Check validateRegister True', (done) => {
-            var res=utility.validateRegister(item);
+            var res=utility.validateRegister(item1);
             if(res.code==0){
                 done();
             }
@@ -26,20 +24,18 @@ describe('Test validateRegister', () => {
     });
 });
 
+var item2 = {
+    fullname: "his.state.inputFullname",
+    grade: "erwer",
+    email: "inputEmail@gmail.com",
+    username: "inputUsername",
+    password: "inputPassword",
+    repassword: "inputPassword"
+}
 describe('Test validateRegister', () => {
-   
-   
-    let item = {
-        fullname: "his.state.inputFullname",
-        grade: "erwer",
-        email: "inputEmail@gmail.com",
-        username: "inputUsername",
-        password: "inputPassword",
-        repassword: "inputPassword"
-    }
     describe('Check validateRegister False', () => {
         it('Check validateRegister False', (done) => {
-            var res=utility.validateRegister(item);
+            var res=utility.validateRegister(item2);
             if(res.code==0){
                 done("phai nhap sai");
             }
@@ -50,18 +46,15 @@ describe('Test validateRegister', () => {
     });
 });
 
+var item3={
+    oldPassword: "this.state",
+    newPassword: "this.state",
+    reNewPassword: "this.state"
+}
 describe('Test validateNewPassword', () => {
-   
-   
-    let info={
-        oldPassword: "this.state",
-        newPassword: "this.state",
-        reNewPassword: "this.state"
-    }
-
     describe('Check validateNewPassword True', () => {
         it('Check validateNewPassword True', (done) => {
-            var res=utility.validateNewPassword(info);
+            var res=utility.validateNewPassword(item3);
             if(res.code==0){
                 done();
             }
@@ -72,18 +65,15 @@ describe('Test validateNewPassword', () => {
     });
 });
 
+var item4={
+    oldPassword: "this.state.inputOldPassword",
+    newPassword: "this.state.inputNewPassword",
+    reNewPassword: "this.state.inputReNewPassword"
+}
 describe('Test validateNewPassword', () => {
-    
-   
-    let info={
-        oldPassword: "this.state.inputOldPassword",
-        newPassword: "this.state.inputNewPassword",
-        reNewPassword: "this.state.inputReNewPassword"
-    }
-
     describe('Check validateNewPassword False', () => {
         it('Check validateNewPassword False', (done) => {
-            var res=utility.validateNewPassword(info);
+            var res=utility.validateNewPassword(item4);
             if(res.code==0){
                 done("Phai nhap sai");
             }
@@ -96,21 +86,20 @@ describe('Test validateNewPassword', () => {
 
 // -------------validateUpdateUser
 
+var item5 = {
+    inputUsername: "TenDangNhap",
+    inputEmail: "Email",
+    inputFullname: "HoTen",
+    inputGrade: "5",
+    error: false,
+    errorMessage: '',
+    errorCode: NaN,
+    running: false
+}
 describe('Test validateUpdateUser', () => {
-    let state = {
-        inputUsername: "TenDangNhap",
-        inputEmail: "Email",
-        inputFullname: "HoTen",
-        inputGrade: "5",
-        error: false,
-        errorMessage: '',
-        errorCode: NaN,
-        running: false
-    }
-
     describe('Check validateUpdateUser True', () => {
         it('Check validateUpdateUser True', (done) => {
-            var res=utility.validateUpdateUser(state);
+            var res=utility.validateUpdateUser(item5);
             if(res.code==0){
                 done();
             }
@@ -121,21 +110,20 @@ describe('Test validateUpdateUser', () => {
     });
 });
 
+var item6 = {
+    inputUsername: "TenDangNhap",
+    inputEmail: "Email",
+    inputFullname: "HoTen",
+    inputGrade: "eeee",
+    error: false,
+    errorMessage: '',
+    errorCode: NaN,
+    running: false
+}
 describe('Test validateUpdateUser', () => {
-    let state = {
-        inputUsername: "TenDangNhap",
-        inputEmail: "Email",
-        inputFullname: "HoTen",
-        inputGrade: "eeee",
-        error: false,
-        errorMessage: '',
-        errorCode: NaN,
-        running: false
-    }
-
     describe('Check validateUpdateUser False', () => {
         it('Check validateUpdateUser False', (done) => {
-            var res=utility.validateUpdateUser(state);
+            var res=utility.validateUpdateUser(item6);
             if(res.code==0){
                 done("Phai nhap sai");
             }
